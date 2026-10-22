@@ -4,15 +4,12 @@
 
   // Color por tema: "web" para fondo oscuro, "print" para papel blanco.
   const COLORES = {
-    cia:         { web: "#38bdf8", print: "#0369a1", icono: "◈" },
-    basicos:     { web: "#f87171", print: "#b91c1c", icono: "⚠" },
-    controles:   { web: "#34d399", print: "#047857", icono: "⛨" },
-    politicas:   { web: "#fbbf24", print: "#b45309", icono: "§" },
-    marcos:      { web: "#a78bfa", print: "#6d28d9", icono: "▤" },
-    soluciones:  { web: "#60a5fa", print: "#1d4ed8", icono: "⚙" },
-    riesgos:     { web: "#fb923c", print: "#c2410c", icono: "▲" },
-    dlp:         { web: "#f472b6", print: "#be185d", icono: "⛁" },
-    continuidad: { web: "#a3e635", print: "#4d7c0f", icono: "↻" },
+    triada:    { web: "#38bdf8", print: "#0369a1", icono: "◈" },
+    politicas: { web: "#fbbf24", print: "#b45309", icono: "§" },
+    riesgos:   { web: "#fb923c", print: "#c2410c", icono: "▲" },
+    marcos:    { web: "#a78bfa", print: "#6d28d9", icono: "▤" },
+    dlp:       { web: "#f472b6", print: "#be185d", icono: "⛁" },
+    bia:       { web: "#34d399", print: "#047857", icono: "↻" },
   };
 
   const terminos = [];

@@ -15,388 +15,186 @@ window.GLOSARIO = {
  },
  "temas": [
   {
-   "id": "cia",
-   "titulo": "Objetivos principales de la seguridad",
-   "subtitulo": "Lo que toda medida de seguridad busca proteger",
+   "id": "triada",
+   "titulo": "Tríada de la seguridad (CIA)",
+   "subtitulo": "Los tres objetivos que guían toda protección de la información",
    "grupos": [
     {
-     "titulo": "Tríada CIA",
+     "titulo": "Pilares",
      "terminos": [
       {
        "nombre": "Confidencialidad",
-       "desc": "Solo las personas autorizadas pueden ver la información; se protege con cifrado y control de acceso.",
+       "desc": "Garantiza que solo quien tiene autorización y necesidad de saber pueda consultar la información.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-0-0"
+       "id": "triada-0-0"
       },
       {
        "nombre": "Integridad",
-       "desc": "La información se mantiene exacta y completa; nadie la modifica sin permiso o sin dejar rastro.",
+       "desc": "Asegura que los datos permanezcan exactos y sin alteraciones no autorizadas al guardarse o enviarse.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-0-1"
+       "id": "triada-0-1"
       },
       {
        "nombre": "Disponibilidad",
-       "desc": "Los sistemas y datos están accesibles y funcionando cuando los usuarios autorizados los necesitan.",
+       "desc": "Los sistemas y datos responden cuando el usuario autorizado los requiere, incluso ante fallas.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-0-2"
+       "id": "triada-0-2"
       }
      ]
     },
     {
-     "titulo": "Complementos (AAA y no repudio)",
+     "titulo": "Mecanismos que la sostienen",
      "terminos": [
       {
-       "nombre": "Autenticación",
-       "desc": "Comprobar que alguien es quien dice ser mediante contraseña, token, tarjeta o biometría.",
+       "nombre": "Cifrado",
+       "desc": "Transforma los datos con una clave para que resulten ilegibles a quien no la posee.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-1-0"
+       "id": "triada-1-0"
+      },
+      {
+       "nombre": "Cifrado simétrico / asimétrico",
+       "desc": "El simétrico usa una sola clave secreta; el asimétrico, un par de llaves pública y privada.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "triada-1-1"
+      },
+      {
+       "nombre": "Hash",
+       "desc": "Valor calculado sobre los datos; si cambia al recalcularlo, la información fue alterada.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "triada-1-2"
+      },
+      {
+       "nombre": "Redundancia (RAID, clúster)",
+       "desc": "Discos en arreglo o servidores en espejo: si uno se cae, otro toma su lugar.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "triada-1-3"
+      },
+      {
+       "nombre": "Respaldo",
+       "desc": "Copia periódica de la información que permite recuperarla tras una pérdida, daño o ataque.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "triada-1-4"
+      }
+     ]
+    },
+    {
+     "titulo": "Control de acceso",
+     "terminos": [
+      {
+       "nombre": "Identificación",
+       "desc": "El usuario declara quién es mediante una cuenta, tarjeta inteligente o rasgo biométrico.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "triada-2-0"
+      },
+      {
+       "nombre": "Autenticación",
+       "desc": "Comprobación de esa identidad con algo que la persona sabe, tiene o es.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "triada-2-1"
       },
       {
        "nombre": "Autorización",
-       "desc": "Definir qué puede hacer un usuario ya autenticado y a qué recursos tiene acceso.",
+       "desc": "Permisos concretos que recibe el usuario ya autenticado sobre cada recurso.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-1-1"
+       "id": "triada-2-2"
       },
       {
-       "nombre": "Contabilidad (auditoría)",
-       "desc": "Registrar quién hizo qué y cuándo para poder revisar y rastrear las acciones.",
+       "nombre": "Mínimo privilegio",
+       "desc": "Otorgar únicamente los permisos indispensables para desempeñar el puesto.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-1-2"
+       "id": "triada-2-3"
       },
       {
        "nombre": "No repudio",
-       "desc": "Garantía de que el autor de una acción o mensaje no puede negar haberlo realizado.",
+       "desc": "Evidencia que impide al autor de una acción negar que la hizo, como firmas o bitácoras.",
        "formula": [],
        "ejemplo": false,
-       "id": "cia-1-3"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "basicos",
-   "titulo": "Conceptos básicos de seguridad",
-   "subtitulo": "El vocabulario base del riesgo y los ataques",
-   "grupos": [
-    {
-     "titulo": "Fundamentos",
-     "terminos": [
-      {
-       "nombre": "Seguridad de la información",
-       "desc": "Proteger la información, en cualquier formato, contra acceso, uso, cambio o destrucción no autorizados.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-0-0"
-      },
-      {
-       "nombre": "Ciberseguridad",
-       "desc": "Parte de la seguridad enfocada en defender sistemas, redes y datos digitales contra ataques.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-0-1"
-      },
-      {
-       "nombre": "Activo",
-       "desc": "Cualquier recurso valioso para la organización: datos, equipos, software, personas o reputación.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-0-2"
+       "id": "triada-2-4"
       }
      ]
     },
     {
-     "titulo": "Elementos del riesgo",
+     "titulo": "Modelos ampliados",
      "terminos": [
       {
-       "nombre": "Amenaza",
-       "desc": "Cualquier evento, persona o situación que podría causar daño a un activo.",
+       "nombre": "Hexada de Parker",
+       "desc": "Amplía la tríada con posesión o control, autenticidad y utilidad: seis principios en total.",
        "formula": [],
        "ejemplo": false,
-       "id": "basicos-1-0"
+       "id": "triada-3-0"
       },
       {
-       "nombre": "Vulnerabilidad",
-       "desc": "Debilidad en un sistema, proceso o persona que una amenaza puede aprovechar.",
+       "nombre": "Posesión o control",
+       "desc": "Quién tiene físicamente el medio donde residen los datos, aunque estos estén cifrados.",
        "formula": [],
        "ejemplo": false,
-       "id": "basicos-1-1"
+       "id": "triada-3-1"
       },
       {
-       "nombre": "Riesgo",
-       "desc": "Posibilidad de que una amenaza aproveche una vulnerabilidad y cause un daño.",
-       "formula": [
-        "Riesgo = Probabilidad × Impacto"
-       ],
+       "nombre": "Autenticidad",
+       "desc": "Certeza de que la información proviene realmente del origen que dice tener.",
+       "formula": [],
        "ejemplo": false,
-       "id": "basicos-1-2"
+       "id": "triada-3-2"
       },
       {
-       "nombre": "Impacto",
-       "desc": "Daño o consecuencia que sufre la organización cuando un riesgo se materializa.",
+       "nombre": "Utilidad",
+       "desc": "Que los datos sirvan para su propósito; un archivo cifrado sin su clave pierde utilidad.",
        "formula": [],
        "ejemplo": false,
-       "id": "basicos-1-3"
-      },
-      {
-       "nombre": "Exploit",
-       "desc": "Código o técnica que aprovecha una vulnerabilidad específica para atacar un sistema.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-1-4"
-      },
-      {
-       "nombre": "Incidente de seguridad",
-       "desc": "Evento que compromete la confidencialidad, integridad o disponibilidad de la información.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-1-5"
-      }
-     ]
-    },
-    {
-     "titulo": "Actores y vectores",
-     "terminos": [
-      {
-       "nombre": "Actor de amenaza",
-       "desc": "Quien origina el ataque: hacker, empleado, hacktivista, crimen organizado o un Estado.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-2-0"
-      },
-      {
-       "nombre": "Amenaza interna (insider)",
-       "desc": "Riesgo causado por personas con acceso legítimo, ya sea por descuido o con mala intención.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-2-1"
-      },
-      {
-       "nombre": "Vector de ataque",
-       "desc": "Camino o medio que usa el atacante para entrar: correo, USB, red o sitio web.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-2-2"
-      },
-      {
-       "nombre": "Superficie de ataque",
-       "desc": "Conjunto de todos los puntos por donde un sistema podría ser atacado.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-2-3"
-      },
-      {
-       "nombre": "APT",
-       "desc": "Amenaza persistente avanzada: atacante con muchos recursos que permanece oculto largo tiempo en la red.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-2-4"
-      }
-     ]
-    },
-    {
-     "titulo": "Ataques comunes",
-     "terminos": [
-      {
-       "nombre": "Malware",
-       "desc": "Software malicioso hecho para dañar, espiar o tomar el control de un equipo.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-3-0"
-      },
-      {
-       "nombre": "Ransomware",
-       "desc": "Malware que cifra los archivos de la víctima y pide un rescate para liberarlos.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-3-1"
-      },
-      {
-       "nombre": "Ingeniería social",
-       "desc": "Manipular a las personas para que revelen información o hagan algo inseguro.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-3-2"
-      },
-      {
-       "nombre": "Phishing",
-       "desc": "Correo o mensaje falso que se hace pasar por alguien confiable para robar datos o contraseñas.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-3-3"
-      },
-      {
-       "nombre": "Día cero (zero-day)",
-       "desc": "Vulnerabilidad que el fabricante aún no conoce ni ha corregido, pero ya puede explotarse.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-3-4"
-      },
-      {
-       "nombre": "DoS / DDoS",
-       "desc": "Ataque que satura un servicio con tráfico para que deje de estar disponible.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "basicos-3-5"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "controles",
-   "titulo": "Controles de seguridad y de acceso",
-   "subtitulo": "Las medidas que reducen el riesgo",
-   "grupos": [
-    {
-     "titulo": "Principios",
-     "terminos": [
-      {
-       "nombre": "Control (contramedida)",
-       "desc": "Medida que reduce un riesgo evitando, detectando o corrigiendo un problema.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-0-0"
+       "id": "triada-3-3"
       },
       {
        "nombre": "Defensa en profundidad",
-       "desc": "Usar varias capas de protección para que, si una falla, otra siga protegiendo.",
+       "desc": "Capas sucesivas de protección física y lógica; si una falla, la siguiente detiene al atacante.",
        "formula": [],
        "ejemplo": false,
-       "id": "controles-0-1"
-      },
-      {
-       "nombre": "Privilegio mínimo",
-       "desc": "Dar a cada usuario solo los permisos indispensables para hacer su trabajo.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-0-2"
-      },
-      {
-       "nombre": "Confianza cero (zero trust)",
-       "desc": "No confiar en nadie por defecto: verificar cada acceso, venga de dentro o fuera de la red.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-0-3"
+       "id": "triada-3-4"
       }
      ]
     },
     {
-     "titulo": "Por su naturaleza",
+     "titulo": "Ataques contra la tríada",
      "terminos": [
       {
-       "nombre": "Administrativo (gerencial)",
-       "desc": "Se basa en políticas, procesos y gestión, como reglas, capacitación y análisis de riesgos.",
+       "nombre": "Intercepción",
+       "desc": "Acceso no autorizado a datos o aplicaciones; afecta sobre todo la confidencialidad.",
        "formula": [],
        "ejemplo": false,
-       "id": "controles-1-0"
+       "id": "triada-4-0"
       },
       {
-       "nombre": "Técnico (lógico)",
-       "desc": "Se implementa con tecnología, como firewall, cifrado, antivirus o contraseñas.",
+       "nombre": "Interrupción",
+       "desc": "Deja inutilizable un recurso de forma temporal o permanente; golpea la disponibilidad.",
        "formula": [],
        "ejemplo": false,
-       "id": "controles-1-1"
+       "id": "triada-4-1"
       },
       {
-       "nombre": "Operativo",
-       "desc": "Lo realizan personas en el día a día: guardias, respaldos y revisión de bitácoras.",
+       "nombre": "Modificación",
+       "desc": "Alteración indebida de la información; compromete principalmente la integridad.",
        "formula": [],
        "ejemplo": false,
-       "id": "controles-1-2"
+       "id": "triada-4-2"
       },
       {
-       "nombre": "Físico",
-       "desc": "Protege instalaciones y equipos con cerraduras, cámaras, credenciales y rejas.",
+       "nombre": "Fabricación",
+       "desc": "Introducir datos, transacciones o procesos falsos dentro de un sistema legítimo.",
        "formula": [],
        "ejemplo": false,
-       "id": "controles-1-3"
-      }
-     ]
-    },
-    {
-     "titulo": "Por su función",
-     "terminos": [
-      {
-       "nombre": "Preventivo",
-       "desc": "Busca impedir que el incidente ocurra, como un firewall o una cerradura.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-2-0"
-      },
-      {
-       "nombre": "Detectivo",
-       "desc": "Descubre un incidente mientras ocurre o después, como un IDS o una cámara.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-2-1"
-      },
-      {
-       "nombre": "Correctivo",
-       "desc": "Reduce el daño y restablece el sistema después del incidente, como restaurar un respaldo.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-2-2"
-      },
-      {
-       "nombre": "Disuasivo",
-       "desc": "Desanima al atacante antes de intentarlo, como letreros o vigilancia visible.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-2-3"
-      },
-      {
-       "nombre": "Compensatorio",
-       "desc": "Alternativa que se usa cuando el control principal no se puede aplicar.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-2-4"
-      }
-     ]
-    },
-    {
-     "titulo": "Modelos de control de acceso",
-     "terminos": [
-      {
-       "nombre": "DAC",
-       "desc": "Control discrecional: el dueño del recurso decide quién puede usarlo, como los permisos de archivos.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-3-0"
-      },
-      {
-       "nombre": "MAC",
-       "desc": "Control obligatorio: el sistema da acceso según etiquetas de clasificación como confidencial o secreto.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-3-1"
-      },
-      {
-       "nombre": "RBAC",
-       "desc": "Control basado en roles: los permisos se asignan al puesto y no a la persona.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-3-2"
-      },
-      {
-       "nombre": "ABAC",
-       "desc": "Control basado en atributos: decide según datos del usuario, del recurso, la hora o la ubicación.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-3-3"
-      },
-      {
-       "nombre": "Basado en reglas",
-       "desc": "El acceso depende de reglas generales del sistema, como horarios o listas del firewall.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "controles-3-4"
+       "id": "triada-4-3"
       }
      ]
     }
@@ -405,78 +203,125 @@ window.GLOSARIO = {
   {
    "id": "politicas",
    "titulo": "Políticas de seguridad",
-   "subtitulo": "Las reglas de la organización y de su personal",
+   "subtitulo": "Reglas documentadas que dirigen la conducta de usuarios y personal de TI",
    "grupos": [
     {
-     "titulo": "Jerarquía documental",
+     "titulo": "Concepto y jerarquía",
      "terminos": [
       {
        "nombre": "Política de seguridad",
-       "desc": "Documento de alto nivel, aprobado por la dirección, que define qué se protege y por qué.",
+       "desc": "Documento que establece cómo la organización atenderá un aspecto de seguridad y qué espera del personal.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-0-0"
       },
       {
        "nombre": "Estándar",
-       "desc": "Regla obligatoria y específica para cumplir una política, por ejemplo la longitud mínima de contraseña.",
+       "desc": "Nivel de operación deseado y medible, por ejemplo 99.5 % de disponibilidad de la red.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-0-1"
       },
       {
-       "nombre": "Procedimiento",
-       "desc": "Pasos detallados y en orden para realizar una tarea de seguridad.",
+       "nombre": "Guía (lineamiento)",
+       "desc": "Sugerencia general, a veces opcional, sobre cómo alcanzar un estándar.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-0-2"
       },
       {
-       "nombre": "Guía (lineamiento)",
-       "desc": "Recomendación no obligatoria que orienta sobre la mejor forma de actuar.",
+       "nombre": "Procedimiento",
+       "desc": "Instrucciones específicas, paso a paso, para resolver una situación concreta.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-0-3"
       },
       {
-       "nombre": "Línea base (baseline)",
-       "desc": "Configuración mínima de seguridad que todos los sistemas deben cumplir.",
+       "nombre": "Política regulatoria",
+       "desc": "Indica al personal cómo cumplir una ley, como HIPAA al manejar expedientes médicos electrónicos.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-0-4"
+      },
+      {
+       "nombre": "Política consultiva",
+       "desc": "Recomienda buenas prácticas sin exigir su cumplimiento obligatorio.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "politicas-0-5"
       }
      ]
     },
     {
-     "titulo": "Políticas comunes",
+     "titulo": "Políticas para usuarios",
      "terminos": [
       {
        "nombre": "Uso aceptable (AUP)",
-       "desc": "Reglas sobre lo que el usuario puede y no puede hacer con los recursos de la empresa.",
+       "desc": "Define qué puede y qué no puede hacer el empleado con equipos, red e internet; suele firmarse.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-1-0"
       },
       {
        "nombre": "Política de contraseñas",
-       "desc": "Define la complejidad, vigencia y manejo correcto de las contraseñas.",
+       "desc": "Fija longitud, complejidad y vigencia, y prohíbe compartir credenciales.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-1-1"
       },
       {
-       "nombre": "Escritorio limpio",
-       "desc": "No dejar documentos ni sesiones abiertas a la vista al retirarse del lugar de trabajo.",
+       "nombre": "Uso del correo electrónico",
+       "desc": "Regula el uso personal y las precauciones ante adjuntos de remitentes desconocidos.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-1-2"
       },
       {
-       "nombre": "Acuerdo de confidencialidad (NDA)",
-       "desc": "Contrato en el que una persona se compromete a no revelar información de la empresa.",
+       "nombre": "Instalación de software",
+       "desc": "Solo personal autorizado puede instalar o desinstalar programas en los equipos.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-1-3"
+      },
+      {
+       "nombre": "Política de privacidad",
+       "desc": "Explica cómo se resguardan los datos personales de usuarios internos y externos.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "politicas-1-4"
+      }
+     ]
+    },
+    {
+     "titulo": "Administración de sistemas",
+     "terminos": [
+      {
+       "nombre": "Altas de empleados",
+       "desc": "Procedimiento para crear cuentas con los accesos justos que necesita el nuevo trabajador.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "politicas-2-0"
+      },
+      {
+       "nombre": "Bajas de empleados",
+       "desc": "Al salir alguien, su cuenta se deshabilita de inmediato y se recuperan sus credenciales.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "politicas-2-1"
+      },
+      {
+       "nombre": "Gestión de cambios",
+       "desc": "Toda modificación a sistemas se propone, evalúa y aprueba por las áreas afectadas antes de aplicarse.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "politicas-2-2"
+      },
+      {
+       "nombre": "Respuesta a incidentes",
+       "desc": "Pasos ante virus, intrusiones o negación de servicio: aislar, notificar, registrar y aprender.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "politicas-2-3"
       }
      ]
     },
@@ -485,318 +330,57 @@ window.GLOSARIO = {
      "terminos": [
       {
        "nombre": "Separación de funciones",
-       "desc": "Dividir una tarea crítica entre varias personas para que nadie pueda cometer fraude solo.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "politicas-2-0"
-      },
-      {
-       "nombre": "Rotación de puestos",
-       "desc": "Cambiar periódicamente al personal de puesto para detectar abusos y evitar depender de alguien.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "politicas-2-1"
-      },
-      {
-       "nombre": "Vacaciones obligatorias",
-       "desc": "Obligar al empleado a ausentarse para que otro revise su trabajo y detecte irregularidades.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "politicas-2-2"
-      },
-      {
-       "nombre": "Concientización",
-       "desc": "Capacitar a los usuarios para reconocer amenazas como el phishing y actuar de forma segura.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "politicas-2-3"
-      }
-     ]
-    },
-    {
-     "titulo": "Gobierno y cumplimiento",
-     "terminos": [
-      {
-       "nombre": "GRC",
-       "desc": "Gobierno, riesgo y cumplimiento: alinear la seguridad con los objetivos, riesgos y leyes del negocio.",
+       "desc": "Una tarea crítica requiere a más de una persona, lo que reparte el control y frena fraudes.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-3-0"
       },
       {
-       "nombre": "Cumplimiento (compliance)",
-       "desc": "Demostrar que la organización respeta leyes, normas y políticas internas.",
+       "nombre": "Rotación de puestos",
+       "desc": "Intercambiar roles cada cierto tiempo para ampliar habilidades y descubrir irregularidades.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-3-1"
       },
       {
-       "nombre": "Debida diligencia",
-       "desc": "Investigar y conocer los riesgos antes de tomar una decisión.",
+       "nombre": "Vacaciones obligatorias",
+       "desc": "Días consecutivos de ausencia que permiten a otra persona revisar el trabajo del titular.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-3-2"
       },
       {
-       "nombre": "Debido cuidado",
-       "desc": "Actuar con responsabilidad para proteger los activos una vez que se conocen los riesgos.",
+       "nombre": "Capacitación y concientización",
+       "desc": "Formación periódica para que el personal reconozca amenazas como phishing o ingeniería social.",
        "formula": [],
        "ejemplo": false,
        "id": "politicas-3-3"
       }
      ]
-    }
-   ]
-  },
-  {
-   "id": "marcos",
-   "titulo": "Marcos, estándares y normativas",
-   "subtitulo": "Referencias externas para organizar la seguridad",
-   "grupos": [
-    {
-     "titulo": "Normas ISO",
-     "terminos": [
-      {
-       "nombre": "ISO/IEC 27001",
-       "desc": "Norma internacional certificable para crear y mantener un sistema de gestión de seguridad de la información.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-0-0"
-      },
-      {
-       "nombre": "ISO/IEC 27002",
-       "desc": "Guía de buenas prácticas que describe los controles de seguridad que apoyan a la ISO 27001.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-0-1"
-      },
-      {
-       "nombre": "SGSI",
-       "desc": "Sistema de gestión de seguridad de la información: ciclo continuo para manejar los riesgos de la información.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-0-2"
-      }
-     ]
     },
     {
-     "titulo": "NIST y CIS",
+     "titulo": "Responsabilidad legal",
      "terminos": [
       {
-       "nombre": "NIST CSF",
-       "desc": "Marco de ciberseguridad organizado en cinco funciones para gestionar riesgos.",
-       "formula": [
-        "Identificar → Proteger → Detectar → Responder → Recuperar"
-       ],
+       "nombre": "Debida diligencia",
+       "desc": "Conocer y evaluar los riesgos y vulnerabilidades de la infraestructura de TI.",
+       "formula": [],
        "ejemplo": false,
-       "id": "marcos-1-0"
+       "id": "politicas-4-0"
       },
       {
-       "nombre": "NIST SP 800-53",
-       "desc": "Catálogo amplio de controles de seguridad y privacidad para sistemas de información.",
+       "nombre": "Debido cuidado",
+       "desc": "Acciones de mitigación que se toman frente a los riesgos ya identificados.",
        "formula": [],
        "ejemplo": false,
-       "id": "marcos-1-1"
+       "id": "politicas-4-1"
       },
       {
-       "nombre": "NIST SP 800-83",
-       "desc": "Guía para prevenir y atender incidentes de malware en equipos de escritorio y laptops.",
+       "nombre": "Debido proceso",
+       "desc": "Principio de respetar y proteger los derechos del personal ante sanciones o demandas.",
        "formula": [],
        "ejemplo": false,
-       "id": "marcos-1-2"
-      },
-      {
-       "nombre": "CIS Controls",
-       "desc": "Lista de 18 controles prácticos y priorizados para defenderse de los ataques más comunes.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-1-3"
-      }
-     ]
-    },
-    {
-     "titulo": "Leyes y regulaciones",
-     "terminos": [
-      {
-       "nombre": "GDPR (RGPD)",
-       "desc": "Reglamento europeo que protege los datos personales y da derechos a sus dueños.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-2-0"
-      },
-      {
-       "nombre": "PCI DSS",
-       "desc": "Estándar obligatorio para quien procesa, guarda o transmite datos de tarjetas de pago.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-2-1"
-      },
-      {
-       "nombre": "HIPAA",
-       "desc": "Ley de Estados Unidos que protege la información médica de los pacientes.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-2-2"
-      },
-      {
-       "nombre": "CCPA",
-       "desc": "Ley de privacidad de California que da al consumidor control sobre sus datos personales.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-2-3"
-      }
-     ]
-    },
-    {
-     "titulo": "Gobierno de datos",
-     "terminos": [
-      {
-       "nombre": "DAMA-DMBOK",
-       "desc": "Guía de buenas prácticas para la gestión y el gobierno de los datos.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "marcos-3-0"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "soluciones",
-   "titulo": "Soluciones tecnológicas de ciberseguridad",
-   "subtitulo": "Herramientas que ponen en práctica los controles",
-   "grupos": [
-    {
-     "titulo": "Red y perímetro",
-     "terminos": [
-      {
-       "nombre": "Firewall",
-       "desc": "Filtra el tráfico entre redes y bloquea lo que no cumple las reglas definidas.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-0-0"
-      },
-      {
-       "nombre": "IDS",
-       "desc": "Sistema de detección de intrusos: vigila el tráfico y avisa ante actividad sospechosa.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-0-1"
-      },
-      {
-       "nombre": "IPS",
-       "desc": "Sistema de prevención de intrusos: detecta el ataque y además lo bloquea automáticamente.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-0-2"
-      },
-      {
-       "nombre": "VPN",
-       "desc": "Túnel cifrado para conectarse de forma segura a una red a través de Internet.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-0-3"
-      },
-      {
-       "nombre": "Segmentación de red",
-       "desc": "Dividir la red en zonas separadas, como VLAN o DMZ, para contener los ataques.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-0-4"
-      },
-      {
-       "nombre": "NAC",
-       "desc": "Control de acceso a la red: solo deja conectarse a equipos que cumplen las políticas.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-0-5"
-      }
-     ]
-    },
-    {
-     "titulo": "Monitoreo y endpoint",
-     "terminos": [
-      {
-       "nombre": "SIEM",
-       "desc": "Reúne y correlaciona bitácoras de muchos sistemas para detectar incidentes en tiempo real.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-1-0"
-      },
-      {
-       "nombre": "SOC",
-       "desc": "Centro de operaciones de seguridad: equipo que vigila y responde a incidentes de forma continua.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-1-1"
-      },
-      {
-       "nombre": "Antivirus / antimalware",
-       "desc": "Software que detecta, bloquea y elimina programas maliciosos en el equipo.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-1-2"
-      },
-      {
-       "nombre": "EDR",
-       "desc": "Herramienta que registra la actividad de cada equipo y responde automáticamente ante amenazas.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-1-3"
-      },
-      {
-       "nombre": "Gestión de parches",
-       "desc": "Instalar actualizaciones a tiempo para cerrar vulnerabilidades conocidas.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-1-4"
-      }
-     ]
-    },
-    {
-     "titulo": "Identidad y criptografía",
-     "terminos": [
-      {
-       "nombre": "IAM",
-       "desc": "Gestión de identidades y accesos: administra cuentas, roles y permisos de los usuarios.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-2-0"
-      },
-      {
-       "nombre": "MFA",
-       "desc": "Autenticación multifactor: pide dos o más pruebas, como contraseña y un código en el celular.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-2-1"
-      },
-      {
-       "nombre": "Cifrado",
-       "desc": "Convierte datos legibles en ilegibles con una clave, para que solo el autorizado pueda leerlos.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-2-2"
-      },
-      {
-       "nombre": "Función hash",
-       "desc": "Genera una huella única de los datos; si cambian aunque sea un poco, cambia el hash.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-2-3"
-      },
-      {
-       "nombre": "Firma digital",
-       "desc": "Usa criptografía para probar quién envió un mensaje y que no fue alterado.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-2-4"
-      },
-      {
-       "nombre": "Certificado digital (PKI)",
-       "desc": "Documento electrónico, emitido por una autoridad confiable, que une una llave pública con su dueño.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "soluciones-2-5"
+       "id": "politicas-4-2"
       }
      ]
     }
@@ -804,139 +388,134 @@ window.GLOSARIO = {
   },
   {
    "id": "riesgos",
-   "titulo": "Análisis y gestión de riesgos",
-   "subtitulo": "Medir, priorizar y decidir qué hacer con cada riesgo",
+   "titulo": "Análisis y evaluación del riesgo",
+   "subtitulo": "Identificar, medir y priorizar riesgos de forma cualitativa y cuantitativa",
    "grupos": [
     {
-     "titulo": "Proceso",
+     "titulo": "Elementos",
      "terminos": [
       {
-       "nombre": "Gestión de riesgos",
-       "desc": "Proceso continuo para identificar, evaluar, tratar y vigilar los riesgos de la organización.",
+       "nombre": "Activo",
+       "desc": "Lo que vale la pena proteger porque su pérdida perjudica al negocio, sea tangible o intangible.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-0-0"
       },
       {
-       "nombre": "Evaluación de riesgos",
-       "desc": "Identificar amenazas y vulnerabilidades de cada activo y estimar su probabilidad e impacto.",
+       "nombre": "Amenaza",
+       "desc": "Fuerza externa capaz de vulnerar los controles de seguridad de la organización.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-0-1"
       },
       {
-       "nombre": "Análisis cualitativo",
-       "desc": "Clasifica los riesgos con escalas descriptivas (bajo, medio, alto) según probabilidad e impacto.",
+       "nombre": "Vulnerabilidad",
+       "desc": "Debilidad interna de los controles que una amenaza podría aprovechar.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-0-2"
       },
       {
-       "nombre": "Análisis cuantitativo",
-       "desc": "Asigna valores en dinero a los riesgos para calcular las pérdidas esperadas.",
-       "formula": [],
+       "nombre": "Riesgo",
+       "desc": "Surge cuando una amenaza coincide con una vulnerabilidad; si falta una de las dos, no existe.",
+       "formula": [
+        "Riesgo = Amenaza × Vulnerabilidad"
+       ],
        "ejemplo": false,
        "id": "riesgos-0-3"
       },
       {
-       "nombre": "Matriz de riesgos",
-       "desc": "Tabla de probabilidad contra impacto que ayuda a priorizar los riesgos con colores.",
+       "nombre": "Impacto",
+       "desc": "Magnitud del daño que sufre la organización si el riesgo llega a concretarse.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-0-4"
-      },
-      {
-       "nombre": "Registro de riesgos",
-       "desc": "Documento que enlista cada riesgo con su dueño, nivel y plan de tratamiento.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "riesgos-0-5"
-      },
-      {
-       "nombre": "Dueño del riesgo",
-       "desc": "Persona responsable de vigilar un riesgo y decidir cómo tratarlo.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "riesgos-0-6"
       }
      ]
     },
     {
-     "titulo": "Fórmulas del análisis cuantitativo",
+     "titulo": "Evaluación cualitativa",
      "terminos": [
       {
-       "nombre": "AV (valor del activo)",
-       "desc": "Cuánto dinero vale el activo, según su costo de reposición e importancia.",
+       "nombre": "Evaluación cualitativa",
+       "desc": "Expertos juzgan probabilidad e impacto con escalas como alto, moderado y bajo.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-1-0"
       },
       {
-       "nombre": "EF (factor de exposición)",
-       "desc": "Porcentaje del valor del activo que se perdería si ocurre el evento.",
+       "nombre": "Matriz de riesgos",
+       "desc": "Cuadro de probabilidad contra impacto que muestra a simple vista qué riesgos atender primero.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-1-1"
       },
       {
-       "nombre": "SLE (pérdida esperada única)",
-       "desc": "Dinero que se pierde en un solo incidente.",
-       "formula": [
-        "SLE = AV × EF"
-       ],
-       "ejemplo": false,
-       "id": "riesgos-1-2"
-      },
-      {
-       "nombre": "ARO (tasa anual de ocurrencia)",
-       "desc": "Cuántas veces al año se espera el evento; una vez cada 4 años equivale a 0.25.",
+       "nombre": "Registro de riesgos",
+       "desc": "Bitácora donde cada área anota sus riesgos y tratamientos; se revisa cada año.",
        "formula": [],
        "ejemplo": false,
-       "id": "riesgos-1-3"
-      },
-      {
-       "nombre": "ALE (pérdida anual esperada)",
-       "desc": "Pérdida esperada por año; sirve para decidir cuánto vale la pena invertir en controles.",
-       "formula": [
-        "ALE = SLE × ARO"
-       ],
-       "ejemplo": false,
-       "id": "riesgos-1-4"
-      },
-      {
-       "nombre": "Ejemplo: robo de servidor",
-       "desc": "AV = $20,000, EF = 70 %, ARO = 0.25 (1 robo cada 4 años).",
-       "formula": [
-        "SLE = $14,000  ·  ALE = $3,500 al año"
-       ],
-       "ejemplo": true,
-       "id": "riesgos-1-5"
+       "id": "riesgos-1-2"
       }
      ]
     },
     {
-     "titulo": "Tipos de riesgo",
+     "titulo": "Evaluación cuantitativa",
      "terminos": [
       {
-       "nombre": "Riesgo inherente",
-       "desc": "Nivel de riesgo que existe antes de aplicar cualquier control.",
+       "nombre": "Evaluación cuantitativa",
+       "desc": "Usa datos numéricos y monetarios para estimar la pérdida esperada de cada riesgo.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-2-0"
       },
       {
-       "nombre": "Riesgo residual",
-       "desc": "Riesgo que sigue existiendo aun después de aplicar los controles.",
+       "nombre": "AV (valor del activo)",
+       "desc": "Costo en dinero de reemplazar o reconstruir el activo evaluado.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-2-1"
       },
       {
-       "nombre": "Apetito de riesgo",
-       "desc": "Cantidad de riesgo que la organización está dispuesta a aceptar para lograr sus metas.",
+       "nombre": "EF (factor de exposición)",
+       "desc": "Fracción, expresada en porcentaje, del valor del activo que destruiría un evento.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-2-2"
+      },
+      {
+       "nombre": "SLE (expectativa de pérdida única)",
+       "desc": "Cuánto dinero cuesta que el evento ocurra una vez.",
+       "formula": [
+        "SLE = AV × EF"
+       ],
+       "ejemplo": false,
+       "id": "riesgos-2-3"
+      },
+      {
+       "nombre": "ARO (tasa anual de ocurrencia)",
+       "desc": "Frecuencia esperada al año; una inundación por siglo se expresa como 0.01.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "riesgos-2-4"
+      },
+      {
+       "nombre": "ALE (expectativa de pérdida anual)",
+       "desc": "Costo anual del riesgo; un control no debería costar más que lo que ahorra.",
+       "formula": [
+        "ALE = SLE × ARO"
+       ],
+       "ejemplo": false,
+       "id": "riesgos-2-5"
+      },
+      {
+       "nombre": "Ejemplo: sismo en el centro de datos",
+       "desc": "AV de $20 millones, EF de 50 % y ARO de 0.03.",
+       "formula": [
+        "SLE = $10 millones  ·  ALE = $300,000 al año"
+       ],
+       "ejemplo": true,
+       "id": "riesgos-2-6"
       }
      ]
     },
@@ -945,31 +524,38 @@ window.GLOSARIO = {
      "terminos": [
       {
        "nombre": "Evitar",
-       "desc": "Eliminar o dejar de hacer la actividad que genera el riesgo.",
+       "desc": "Cambiar la actividad del negocio para eliminar el riesgo, como reubicar un centro de datos.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-3-0"
       },
       {
-       "nombre": "Mitigar (reducir)",
-       "desc": "Aplicar controles para bajar la probabilidad o el impacto del riesgo.",
+       "nombre": "Transferir",
+       "desc": "Trasladar el impacto económico a otra entidad mediante un seguro o una cláusula de indemnización.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-3-1"
       },
       {
-       "nombre": "Transferir",
-       "desc": "Pasar el impacto económico a un tercero, como una aseguradora o un proveedor.",
+       "nombre": "Mitigación",
+       "desc": "Estrategia favorita en seguridad: poner firewalls, IPS u otros controles ligados directamente al riesgo.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-3-2"
       },
       {
-       "nombre": "Aceptar",
-       "desc": "Asumir el riesgo conscientemente porque controlarlo cuesta más que el daño posible.",
+       "nombre": "Disuasión",
+       "desc": "Medidas que desaniman al atacante, como acciones legales firmes o vigilancia visible.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-3-3"
+      },
+      {
+       "nombre": "Aceptar",
+       "desc": "Solo vigilar el riesgo sin actuar, decisión válida únicamente tras un análisis que la justifique.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "riesgos-3-4"
       }
      ]
     },
@@ -978,24 +564,179 @@ window.GLOSARIO = {
      "terminos": [
       {
        "nombre": "Escaneo de vulnerabilidades",
-       "desc": "Revisión automática de sistemas para encontrar debilidades conocidas.",
+       "desc": "Revisión no intrusiva que detecta debilidades conocidas sin explotarlas.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-4-0"
       },
       {
-       "nombre": "Prueba de penetración (pentest)",
-       "desc": "Ataque simulado y autorizado para comprobar si las vulnerabilidades realmente pueden explotarse.",
+       "nombre": "Prueba de penetración",
+       "desc": "Ataque autorizado y más intrusivo que intenta explotar las vulnerabilidades encontradas.",
        "formula": [],
        "ejemplo": false,
        "id": "riesgos-4-1"
-      },
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "marcos",
+   "titulo": "Estándares y marcos de seguridad",
+   "subtitulo": "Referencias reconocidas para organizar, medir y mejorar la seguridad",
+   "grupos": [
+    {
+     "titulo": "NIST Cybersecurity Framework",
+     "terminos": [
       {
-       "nombre": "CVE",
-       "desc": "Identificador público y único que se asigna a cada vulnerabilidad conocida.",
+       "nombre": "NIST CSF",
+       "desc": "Marco voluntario de EE. UU. para gestionar el riesgo cibernético; su versión 1.0 es de 2014.",
        "formula": [],
        "ejemplo": false,
-       "id": "riesgos-4-2"
+       "id": "marcos-0-0"
+      },
+      {
+       "nombre": "Núcleo del marco",
+       "desc": "Actividades y resultados organizados en funciones, categorías, subcategorías y referencias informativas.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-0-1"
+      },
+      {
+       "nombre": "Funciones del núcleo",
+       "desc": "Cinco actividades que se realizan en paralelo y de forma continua, no como pasos en serie.",
+       "formula": [
+        "Identificar · Proteger · Detectar · Responder · Recuperar"
+       ],
+       "ejemplo": false,
+       "id": "marcos-0-2"
+      },
+      {
+       "nombre": "Niveles de implementación",
+       "desc": "Grado de madurez en la gestión del riesgo: parcial, informado, repetible y adaptativo.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-0-3"
+      },
+      {
+       "nombre": "Perfil actual y objetivo",
+       "desc": "Comparar dónde está la organización y dónde quiere llegar revela las brechas por cubrir.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-0-4"
+      }
+     ]
+    },
+    {
+     "titulo": "CIS Controls",
+     "terminos": [
+      {
+       "nombre": "CIS Controls v8.1",
+       "desc": "Conjunto priorizado de 18 controles con acciones concretas contra los ataques más comunes.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-1-0"
+      },
+      {
+       "nombre": "Salvaguarda",
+       "desc": "Acción específica y medible dentro de cada control CIS; antes se llamaba subcontrol.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-1-1"
+      },
+      {
+       "nombre": "Grupos de implementación (IG)",
+       "desc": "IG1, IG2 e IG3 priorizan salvaguardas según los recursos y el riesgo de cada empresa.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-1-2"
+      },
+      {
+       "nombre": "IG1: higiene cibernética esencial",
+       "desc": "Salvaguardas mínimas que toda organización debería aplicar contra los ataques frecuentes.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-1-3"
+      }
+     ]
+    },
+    {
+     "titulo": "Normas ISO/IEC",
+     "terminos": [
+      {
+       "nombre": "ISO/IEC 27001",
+       "desc": "Estándar internacional cuyos requisitos permiten que una empresa audite y certifique su SGSI.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-2-0"
+      },
+      {
+       "nombre": "ISO/IEC 27002",
+       "desc": "Código de buenas prácticas con controles de seguridad; también orienta la clasificación de datos.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-2-1"
+      },
+      {
+       "nombre": "SGSI",
+       "desc": "Sistema de gestión que asigna recursos y controles según el tipo y valor de cada clase de información.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-2-2"
+      },
+      {
+       "nombre": "ISO/IEC 38505-1",
+       "desc": "Aplica los principios de gobierno de TI de ISO 38500 al gobierno de los datos.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-2-3"
+      },
+      {
+       "nombre": "Modelo EDM",
+       "desc": "El órgano de gobierno evalúa, dirige y monitorea cómo se manejan y usan los datos.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-2-4"
+      },
+      {
+       "nombre": "Seis principios de gobierno",
+       "desc": "Responsabilidad, estrategia, adquisición, desempeño, conformidad y comportamiento humano.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-2-5"
+      }
+     ]
+    },
+    {
+     "titulo": "Leyes y regulaciones",
+     "terminos": [
+      {
+       "nombre": "HIPAA",
+       "desc": "Norma de EE. UU. que obliga a hospitales y aseguradoras a resguardar los expedientes de salud.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-3-0"
+      },
+      {
+       "nombre": "SOX",
+       "desc": "Ley Sarbanes-Oxley: exige controles y transparencia sobre la información financiera de empresas que cotizan en bolsa.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-3-1"
+      },
+      {
+       "nombre": "GLBA",
+       "desc": "Ley Gramm-Leach-Bliley: obliga a las financieras a proteger datos de clientes y combate el pretexting.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-3-2"
+      },
+      {
+       "nombre": "Privacy Act (1974)",
+       "desc": "Ley que fija estándares para manejar la información personal en poder del gobierno federal.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "marcos-3-3"
       }
      ]
     }
@@ -1004,47 +745,85 @@ window.GLOSARIO = {
   {
    "id": "dlp",
    "titulo": "Prevención de pérdida de datos (DLP)",
-   "subtitulo": "Evitar que la información sensible salga de donde debe estar",
+   "subtitulo": "Saber dónde está la información sensible y evitar que salga sin control",
    "grupos": [
     {
      "titulo": "Concepto",
      "terminos": [
       {
        "nombre": "DLP",
-       "desc": "Estrategia, procesos y herramientas que evitan que los datos sensibles se pierdan, roben o usen mal.",
+       "desc": "Herramientas y procesos que identifican datos sensibles y bloquean su salida o uso indebido.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-0-0"
       },
       {
-       "nombre": "Filtración (data breach)",
-       "desc": "Incidente en el que alguien no autorizado logra acceder a información sensible.",
+       "nombre": "Pérdida vs. fuga de datos",
+       "desc": "En la pérdida el dato deja de estar disponible; en la fuga termina en manos de terceros.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-0-1"
       },
       {
-       "nombre": "Fuga de datos (data leak)",
-       "desc": "Exposición accidental de datos sensibles por un error técnico o humano.",
+       "nombre": "Amenaza interna",
+       "desc": "Empleado o contratista con acceso legítimo que, por error o con intención, expone información.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-0-2"
-      },
+      }
+     ]
+    },
+    {
+     "titulo": "Gestión de datos (CIS Control 3)",
+     "terminos": [
       {
-       "nombre": "Exfiltración",
-       "desc": "Robo de datos: el atacante copia o saca la información hacia un lugar que él controla.",
+       "nombre": "Proceso de gestión de datos",
+       "desc": "Define dueños, manejo, retención y eliminación de los datos según su sensibilidad.",
        "formula": [],
        "ejemplo": false,
-       "id": "dlp-0-3"
+       "id": "dlp-1-0"
       },
       {
-       "nombre": "Proceso DLP",
-       "desc": "Cuatro pasos que se repiten de forma continua.",
-       "formula": [
-        "Identificar y clasificar → Monitorear → Proteger → Documentar"
-       ],
+       "nombre": "Inventario de datos",
+       "desc": "Registro actualizado de qué datos sensibles existen, dónde se guardan y quién los custodia.",
+       "formula": [],
        "ejemplo": false,
-       "id": "dlp-0-4"
+       "id": "dlp-1-1"
+      },
+      {
+       "nombre": "Clasificación de datos",
+       "desc": "Etiquetar la información según su sensibilidad: pública, interna, confidencial o restringida.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-1-2"
+      },
+      {
+       "nombre": "PII",
+       "desc": "Cualquier dato que identifique, directa o indirectamente, a una persona física.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-1-3"
+      },
+      {
+       "nombre": "Flujo de datos",
+       "desc": "Documentar por dónde viaja la información, incluidos los proveedores de servicio.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-1-4"
+      },
+      {
+       "nombre": "Retención de datos",
+       "desc": "Conservar la información solo durante los plazos mínimo y máximo que se definieron.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-1-5"
+      },
+      {
+       "nombre": "Eliminación segura",
+       "desc": "Destruir o purgar datos y medios para que no puedan recuperarse.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-1-6"
       }
      ]
     },
@@ -1053,64 +832,24 @@ window.GLOSARIO = {
      "terminos": [
       {
        "nombre": "Datos en reposo",
-       "desc": "Datos almacenados en discos, bases de datos o la nube.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "dlp-1-0"
-      },
-      {
-       "nombre": "Datos en tránsito",
-       "desc": "Datos que viajan por la red; son los más expuestos a ser interceptados.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "dlp-1-1"
-      },
-      {
-       "nombre": "Datos en uso",
-       "desc": "Datos que se están abriendo, editando o procesando en ese momento.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "dlp-1-2"
-      }
-     ]
-    },
-    {
-     "titulo": "Tipos de datos",
-     "terminos": [
-      {
-       "nombre": "Clasificación de datos",
-       "desc": "Ordenar la información según su sensibilidad para saber cuánto protegerla.",
+       "desc": "Archivos y registros guardados que no se están moviendo; el cifrado de disco los protege.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-2-0"
       },
       {
-       "nombre": "PII",
-       "desc": "Información de identificación personal: datos que identifican a alguien, como nombre, CURP o correo.",
+       "nombre": "Datos en tránsito",
+       "desc": "Información que viaja por la red; requiere canales cifrados como TLS.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-2-1"
       },
       {
-       "nombre": "Propiedad intelectual",
-       "desc": "Creaciones valiosas de la empresa, como diseños, código, fórmulas o patentes.",
+       "nombre": "Datos en uso",
+       "desc": "Información abierta o procesándose en memoria en un momento dado.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-2-2"
-      },
-      {
-       "nombre": "Estructurados / no estructurados",
-       "desc": "Los primeros tienen formato fijo en bases de datos; los segundos son documentos, imágenes o correos.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "dlp-2-3"
-      },
-      {
-       "nombre": "Shadow data / shadow IT",
-       "desc": "Datos y herramientas que se usan fuera del control del área de TI.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "dlp-2-4"
       }
      ]
     },
@@ -1119,21 +858,21 @@ window.GLOSARIO = {
      "terminos": [
       {
        "nombre": "DLP de red",
-       "desc": "Vigila los datos que entran, salen y se mueven dentro de la red.",
+       "desc": "Inspecciona el tráfico que sale de la organización: correo, web y transferencias de archivos.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-3-0"
       },
       {
        "nombre": "DLP de endpoint",
-       "desc": "Supervisa laptops, celulares y servidores, y bloquea acciones como copiar a una USB.",
+       "desc": "Agente instalado en el equipo que vigila copias a USB, impresiones o capturas de pantalla.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-3-1"
       },
       {
        "nombre": "DLP en la nube",
-       "desc": "Clasifica, monitorea y cifra los datos guardados en servicios en la nube.",
+       "desc": "Aplica las reglas de DLP a correo, almacenamiento y aplicaciones contratadas como servicio (SaaS).",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-3-2"
@@ -1141,209 +880,200 @@ window.GLOSARIO = {
      ]
     },
     {
-     "titulo": "Técnicas de detección",
+     "titulo": "Técnicas y respuesta",
      "terminos": [
       {
-       "nombre": "Huella digital de datos",
-       "desc": "Reconoce archivos sensibles por sus etiquetas, metadatos o valor hash.",
+       "nombre": "Coincidencia de patrones",
+       "desc": "Busca estructuras conocidas, como 16 dígitos de una tarjeta o una CURP, en el contenido revisado.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-4-0"
       },
       {
-       "nombre": "Coincidencia de patrones",
-       "desc": "Detecta formatos conocidos, como números de tarjeta o CURP, dentro del contenido.",
+       "nombre": "Huella digital de documentos",
+       "desc": "Reconoce copias de archivos sensibles comparando su hash o fragmentos de contenido.",
        "formula": [],
        "ejemplo": false,
        "id": "dlp-4-1"
+      },
+      {
+       "nombre": "Seudonimización y anonimización",
+       "desc": "Sustituir identificadores por alias, o alterarlos de forma irreversible, para proteger a la persona.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-4-2"
+      },
+      {
+       "nombre": "Bitácora de acceso",
+       "desc": "Registrar quién consulta datos sensibles para detectar y rastrear abusos.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "dlp-4-3"
       }
      ]
     }
    ]
   },
   {
-   "id": "continuidad",
-   "titulo": "Continuidad del negocio y recuperación (BCP / DRP)",
-   "subtitulo": "Seguir operando y recuperarse tras un desastre",
+   "id": "bia",
+   "titulo": "Análisis de impacto al negocio (BIA)",
+   "subtitulo": "Qué procesos son críticos y cuánto tiempo puede resistir la organización sin ellos",
    "grupos": [
     {
-     "titulo": "Planes",
+     "titulo": "Concepto",
      "terminos": [
       {
-       "nombre": "BCP",
-       "desc": "Plan de continuidad del negocio: mantiene las operaciones esenciales de toda la empresa durante una crisis.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-0-0"
-      },
-      {
-       "nombre": "DRP",
-       "desc": "Plan de recuperación ante desastres: restaura los sistemas de TI y los datos; forma parte del BCP.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-0-1"
-      },
-      {
-       "nombre": "BCDR",
-       "desc": "Gestión conjunta de la continuidad del negocio y la recuperación ante desastres.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-0-2"
-      },
-      {
        "nombre": "BIA",
-       "desc": "Análisis de impacto al negocio: identifica procesos críticos y el daño de detenerlos; es el punto de partida.",
+       "desc": "Análisis que identifica los procesos críticos y estima el daño que causa interrumpirlos con el paso del tiempo.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-0-3"
+       "id": "bia-0-0"
       },
       {
-       "nombre": "IMP",
-       "desc": "Plan de gestión de incidentes: atiende un incidente de seguridad antes de que se convierta en crisis.",
+       "nombre": "Proceso crítico",
+       "desc": "Actividad sin la cual la organización no puede cumplir su misión ni generar ingresos.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-0-4"
+       "id": "bia-0-1"
       },
       {
-       "nombre": "BRP",
-       "desc": "Plan de reanudación del negocio: cómo retomar las operaciones comerciales y la cadena de suministro.",
+       "nombre": "Dependencias",
+       "desc": "Personas, sistemas, proveedores e instalaciones que un proceso necesita para operar.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-0-5"
+       "id": "bia-0-2"
       },
       {
-       "nombre": "COOP",
-       "desc": "Plan de continuidad de operaciones: sostiene las funciones esenciales durante interrupciones largas.",
+       "nombre": "Punto único de falla",
+       "desc": "Componente cuya caída detiene todo el proceso porque no tiene respaldo.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-0-6"
-      },
-      {
-       "nombre": "OEP",
-       "desc": "Plan de emergencia para ocupantes: protege a empleados y visitantes, por ejemplo con evacuaciones.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-0-7"
-      },
-      {
-       "nombre": "Plan de comunicación",
-       "desc": "Define cómo informar a empleados, clientes, proveedores y medios durante una crisis.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-0-8"
+       "id": "bia-0-3"
       }
      ]
     },
     {
-     "titulo": "Métricas",
+     "titulo": "Métricas de tiempo",
      "terminos": [
       {
-       "nombre": "RTO",
-       "desc": "Tiempo objetivo de recuperación: tiempo máximo que un proceso puede estar detenido.",
+       "nombre": "MTD (tiempo máximo tolerable)",
+       "desc": "Lapso máximo de interrupción antes de que el daño resulte inaceptable.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-1-0"
+       "id": "bia-1-0"
+      },
+      {
+       "nombre": "RTO",
+       "desc": "Tiempo objetivo para restablecer un proceso; siempre debe ser menor que el MTD.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "bia-1-1"
       },
       {
        "nombre": "RPO",
-       "desc": "Punto objetivo de recuperación: cantidad máxima de datos, medida en tiempo, que se puede perder.",
+       "desc": "Cantidad máxima de datos, medida en tiempo, que se puede perder; marca la frecuencia de respaldos.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-1-1"
-      },
-      {
-       "nombre": "MTBF",
-       "desc": "Tiempo medio entre fallas: cuánto funciona un equipo, en promedio, antes de fallar.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-1-2"
+       "id": "bia-1-2"
       },
       {
        "nombre": "MTTR",
-       "desc": "Tiempo medio de reparación: cuánto tarda, en promedio, un equipo en volver a funcionar.",
+       "desc": "Tiempo promedio que tarda en repararse un componente que falló.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-1-3"
+       "id": "bia-1-3"
+      },
+      {
+       "nombre": "MTBF",
+       "desc": "Tiempo promedio que opera un equipo entre una falla y la siguiente.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "bia-1-4"
       }
      ]
     },
     {
-     "titulo": "Estrategias de recuperación",
+     "titulo": "Tipos de impacto",
      "terminos": [
       {
-       "nombre": "Respaldo (backup)",
-       "desc": "Copia periódica de los datos guardada en otro lugar para poder restaurarlos.",
+       "nombre": "Impacto financiero",
+       "desc": "Ingresos perdidos, multas y costos adicionales provocados por la interrupción.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-2-0"
+       "id": "bia-2-0"
       },
       {
-       "nombre": "Sitio caliente",
-       "desc": "Instalación alterna equipada y lista para operar casi de inmediato; es la más costosa.",
+       "nombre": "Impacto operativo",
+       "desc": "Retrasos, trabajo acumulado y pérdida de productividad mientras el proceso está detenido.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-2-1"
+       "id": "bia-2-1"
       },
       {
-       "nombre": "Sitio tibio",
-       "desc": "Instalación con parte del equipo; necesita algo de tiempo para empezar a operar.",
+       "nombre": "Impacto reputacional",
+       "desc": "Desconfianza de clientes y socios ante fallas visibles del servicio.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-2-2"
+       "id": "bia-2-2"
       },
       {
-       "nombre": "Sitio frío",
-       "desc": "Espacio con energía y conexión básicas, pero sin equipos; es el más lento y barato.",
+       "nombre": "Impacto legal o regulatorio",
+       "desc": "Sanciones por incumplir contratos o leyes durante la interrupción.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-2-3"
-      },
-      {
-       "nombre": "Alta disponibilidad",
-       "desc": "Duplicar componentes para que el servicio siga funcionando aunque uno falle.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-2-4"
-      },
-      {
-       "nombre": "Recuperación virtualizada",
-       "desc": "Usar máquinas virtuales que arrancan en minutos para recuperar aplicaciones críticas.",
-       "formula": [],
-       "ejemplo": false,
-       "id": "continuidad-2-5"
+       "id": "bia-2-3"
       }
      ]
     },
     {
-     "titulo": "Gestión del plan",
+     "titulo": "Etapas del BIA",
      "terminos": [
       {
-       "nombre": "Inventario de activos",
-       "desc": "Lista de activos clasificados como críticos, importantes o sin importancia para la operación.",
+       "nombre": "Recolección de información",
+       "desc": "Entrevistas y cuestionarios a los responsables de cada área sobre sus procesos.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-3-0"
+       "id": "bia-3-0"
       },
       {
-       "nombre": "Roles del plan",
-       "desc": "Informante de incidentes, supervisor del DRP y gestor de activos coordinan la respuesta.",
+       "nombre": "Priorización de procesos",
+       "desc": "Ordenar los procesos según su impacto para decidir qué recuperar primero.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-3-1"
+       "id": "bia-3-1"
       },
       {
-       "nombre": "Pruebas y simulacros",
-       "desc": "Ensayos periódicos que confirman que el plan funciona y que el personal sabe qué hacer.",
+       "nombre": "Informe BIA",
+       "desc": "Documento con hallazgos, tiempos y prioridades que la dirección revisa y aprueba.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-3-2"
+       "id": "bia-3-2"
+      }
+     ]
+    },
+    {
+     "titulo": "Relación con otros planes",
+     "terminos": [
+      {
+       "nombre": "BCP",
+       "desc": "Estrategia para que la empresa siga dando servicio durante una crisis; se diseña con los resultados del BIA.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "bia-4-0"
       },
       {
-       "nombre": "Resiliencia",
-       "desc": "Capacidad de la empresa para adaptarse y seguir operando ante cualquier adversidad.",
+       "nombre": "DRP",
+       "desc": "Parte técnica de la continuidad: cómo levantar servidores, redes y datos después de un desastre.",
        "formula": [],
        "ejemplo": false,
-       "id": "continuidad-3-3"
+       "id": "bia-4-1"
+      },
+      {
+       "nombre": "Pruebas del plan",
+       "desc": "Simulacros periódicos que validan los tiempos de recuperación y mantienen el BIA actualizado.",
+       "formula": [],
+       "ejemplo": false,
+       "id": "bia-4-2"
       }
      ]
     }
@@ -1352,172 +1082,120 @@ window.GLOSARIO = {
  ],
  "enlaces": [
   {
-   "de": "cia-0-0",
-   "a": "soluciones-2-2"
+   "de": "triada-0-0",
+   "a": "triada-1-0"
   },
   {
-   "de": "cia-0-0",
+   "de": "triada-0-0",
    "a": "dlp-0-0"
   },
   {
-   "de": "cia-0-1",
-   "a": "soluciones-2-3"
+   "de": "triada-0-1",
+   "a": "triada-1-2"
   },
   {
-   "de": "cia-0-1",
-   "a": "soluciones-2-4"
+   "de": "triada-0-2",
+   "a": "bia-1-1"
   },
   {
-   "de": "cia-0-2",
-   "a": "continuidad-0-0"
+   "de": "triada-1-3",
+   "a": "triada-0-2"
   },
   {
-   "de": "cia-0-2",
-   "a": "continuidad-2-4"
+   "de": "triada-1-4",
+   "a": "bia-1-2"
   },
   {
-   "de": "cia-1-0",
-   "a": "soluciones-2-1"
+   "de": "triada-2-2",
+   "a": "triada-2-3"
   },
   {
-   "de": "cia-1-1",
-   "a": "controles-3-2"
+   "de": "triada-2-3",
+   "a": "politicas-3-0"
   },
   {
-   "de": "cia-1-2",
-   "a": "soluciones-1-0"
+   "de": "triada-4-0",
+   "a": "triada-0-0"
   },
   {
-   "de": "cia-1-3",
-   "a": "soluciones-2-4"
+   "de": "triada-4-1",
+   "a": "triada-0-2"
   },
   {
-   "de": "basicos-0-2",
-   "a": "riesgos-1-0"
+   "de": "triada-4-2",
+   "a": "triada-0-1"
   },
   {
-   "de": "basicos-1-1",
+   "de": "politicas-0-4",
+   "a": "marcos-3-0"
+  },
+  {
+   "de": "politicas-1-4",
+   "a": "dlp-1-3"
+  },
+  {
+   "de": "politicas-2-0",
+   "a": "triada-2-3"
+  },
+  {
+   "de": "politicas-4-0",
+   "a": "riesgos-0-3"
+  },
+  {
+   "de": "politicas-4-1",
+   "a": "riesgos-3-2"
+  },
+  {
+   "de": "riesgos-0-0",
+   "a": "riesgos-2-1"
+  },
+  {
+   "de": "riesgos-0-2",
    "a": "riesgos-4-0"
   },
   {
-   "de": "basicos-1-2",
-   "a": "riesgos-0-0"
+   "de": "riesgos-0-4",
+   "a": "bia-0-0"
   },
   {
-   "de": "basicos-1-5",
-   "a": "continuidad-0-4"
+   "de": "marcos-2-1",
+   "a": "dlp-1-2"
   },
   {
-   "de": "basicos-2-1",
-   "a": "dlp-0-3"
+   "de": "marcos-3-3",
+   "a": "dlp-1-3"
   },
   {
-   "de": "basicos-3-0",
-   "a": "marcos-1-2"
+   "de": "dlp-0-2",
+   "a": "politicas-3-0"
   },
   {
-   "de": "basicos-3-1",
-   "a": "continuidad-2-0"
+   "de": "dlp-1-0",
+   "a": "marcos-1-0"
   },
   {
-   "de": "basicos-3-2",
-   "a": "politicas-2-3"
+   "de": "dlp-2-0",
+   "a": "triada-1-0"
   },
   {
-   "de": "basicos-3-4",
-   "a": "soluciones-1-4"
+   "de": "dlp-4-1",
+   "a": "triada-1-2"
   },
   {
-   "de": "basicos-3-5",
-   "a": "cia-0-2"
+   "de": "dlp-4-3",
+   "a": "triada-2-4"
   },
   {
-   "de": "controles-0-0",
-   "a": "riesgos-3-1"
+   "de": "bia-0-3",
+   "a": "triada-1-3"
   },
   {
-   "de": "controles-0-3",
-   "a": "soluciones-2-0"
+   "de": "bia-2-3",
+   "a": "marcos-3-1"
   },
   {
-   "de": "controles-1-0",
-   "a": "politicas-0-0"
-  },
-  {
-   "de": "controles-1-1",
-   "a": "soluciones-0-0"
-  },
-  {
-   "de": "controles-2-1",
-   "a": "soluciones-0-1"
-  },
-  {
-   "de": "politicas-1-1",
-   "a": "soluciones-2-1"
-  },
-  {
-   "de": "politicas-1-3",
-   "a": "cia-0-0"
-  },
-  {
-   "de": "politicas-2-3",
-   "a": "basicos-3-3"
-  },
-  {
-   "de": "politicas-3-0",
-   "a": "riesgos-0-0"
-  },
-  {
-   "de": "politicas-3-1",
-   "a": "marcos-2-0"
-  },
-  {
-   "de": "marcos-1-1",
-   "a": "controles-0-0"
-  },
-  {
-   "de": "marcos-2-0",
-   "a": "dlp-2-1"
-  },
-  {
-   "de": "marcos-3-0",
-   "a": "dlp-2-0"
-  },
-  {
-   "de": "soluciones-1-2",
-   "a": "basicos-3-0"
-  },
-  {
-   "de": "soluciones-1-4",
-   "a": "basicos-1-1"
-  },
-  {
-   "de": "soluciones-2-0",
-   "a": "controles-3-2"
-  },
-  {
-   "de": "riesgos-0-1",
-   "a": "basicos-1-0"
-  },
-  {
-   "de": "riesgos-4-1",
-   "a": "basicos-1-4"
-  },
-  {
-   "de": "dlp-1-1",
-   "a": "soluciones-0-3"
-  },
-  {
-   "de": "dlp-4-0",
-   "a": "soluciones-2-3"
-  },
-  {
-   "de": "continuidad-0-3",
-   "a": "riesgos-0-1"
-  },
-  {
-   "de": "continuidad-3-0",
-   "a": "basicos-0-2"
+   "de": "bia-3-1",
+   "a": "riesgos-1-1"
   }
  ]
 };

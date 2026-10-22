@@ -6,218 +6,174 @@
 #   - Término | descripción (máx. 20 palabras) | tema:Término relacionado; tema:Otro
 #   La parte de relaciones es opcional.
 #   Una línea "> texto" debajo de un término agrega una fórmula o ejemplo resaltado.
-#   ids de tema: cia, basicos, controles, politicas, marcos, soluciones, riesgos, dlp, continuidad
+#   ids de tema: triada, politicas, riesgos, marcos, dlp, bia
 
-## cia | Objetivos principales de la seguridad | Lo que toda medida de seguridad busca proteger
-### Tríada CIA
-- Confidencialidad | Solo las personas autorizadas pueden ver la información; se protege con cifrado y control de acceso. | soluciones:Cifrado; dlp:DLP
-- Integridad | La información se mantiene exacta y completa; nadie la modifica sin permiso o sin dejar rastro. | soluciones:Función hash; soluciones:Firma digital
-- Disponibilidad | Los sistemas y datos están accesibles y funcionando cuando los usuarios autorizados los necesitan. | continuidad:BCP; continuidad:Alta disponibilidad
-### Complementos (AAA y no repudio)
-- Autenticación | Comprobar que alguien es quien dice ser mediante contraseña, token, tarjeta o biometría. | soluciones:MFA
-- Autorización | Definir qué puede hacer un usuario ya autenticado y a qué recursos tiene acceso. | controles:RBAC
-- Contabilidad (auditoría) | Registrar quién hizo qué y cuándo para poder revisar y rastrear las acciones. | soluciones:SIEM
-- No repudio | Garantía de que el autor de una acción o mensaje no puede negar haberlo realizado. | soluciones:Firma digital
+## triada | Tríada de la seguridad (CIA) | Los tres objetivos que guían toda protección de la información
+### Pilares
+- Confidencialidad | Garantiza que solo quien tiene autorización y necesidad de saber pueda consultar la información. | triada:Cifrado; dlp:DLP
+- Integridad | Asegura que los datos permanezcan exactos y sin alteraciones no autorizadas al guardarse o enviarse. | triada:Hash
+- Disponibilidad | Los sistemas y datos responden cuando el usuario autorizado los requiere, incluso ante fallas. | bia:RTO
+### Mecanismos que la sostienen
+- Cifrado | Transforma los datos con una clave para que resulten ilegibles a quien no la posee.
+- Cifrado simétrico / asimétrico | El simétrico usa una sola clave secreta; el asimétrico, un par de llaves pública y privada.
+- Hash | Valor calculado sobre los datos; si cambia al recalcularlo, la información fue alterada.
+- Redundancia (RAID, clúster) | Discos en arreglo o servidores en espejo: si uno se cae, otro toma su lugar. | triada:Disponibilidad
+- Respaldo | Copia periódica de la información que permite recuperarla tras una pérdida, daño o ataque. | bia:RPO
+### Control de acceso
+- Identificación | El usuario declara quién es mediante una cuenta, tarjeta inteligente o rasgo biométrico.
+- Autenticación | Comprobación de esa identidad con algo que la persona sabe, tiene o es.
+- Autorización | Permisos concretos que recibe el usuario ya autenticado sobre cada recurso. | triada:Mínimo privilegio
+- Mínimo privilegio | Otorgar únicamente los permisos indispensables para desempeñar el puesto. | politicas:Separación de funciones
+- No repudio | Evidencia que impide al autor de una acción negar que la hizo, como firmas o bitácoras.
+### Modelos ampliados
+- Hexada de Parker | Amplía la tríada con posesión o control, autenticidad y utilidad: seis principios en total.
+- Posesión o control | Quién tiene físicamente el medio donde residen los datos, aunque estos estén cifrados.
+- Autenticidad | Certeza de que la información proviene realmente del origen que dice tener.
+- Utilidad | Que los datos sirvan para su propósito; un archivo cifrado sin su clave pierde utilidad.
+- Defensa en profundidad | Capas sucesivas de protección física y lógica; si una falla, la siguiente detiene al atacante.
+### Ataques contra la tríada
+- Intercepción | Acceso no autorizado a datos o aplicaciones; afecta sobre todo la confidencialidad. | triada:Confidencialidad
+- Interrupción | Deja inutilizable un recurso de forma temporal o permanente; golpea la disponibilidad. | triada:Disponibilidad
+- Modificación | Alteración indebida de la información; compromete principalmente la integridad. | triada:Integridad
+- Fabricación | Introducir datos, transacciones o procesos falsos dentro de un sistema legítimo.
 
-## basicos | Conceptos básicos de seguridad | El vocabulario base del riesgo y los ataques
-### Fundamentos
-- Seguridad de la información | Proteger la información, en cualquier formato, contra acceso, uso, cambio o destrucción no autorizados.
-- Ciberseguridad | Parte de la seguridad enfocada en defender sistemas, redes y datos digitales contra ataques.
-- Activo | Cualquier recurso valioso para la organización: datos, equipos, software, personas o reputación. | riesgos:AV
-### Elementos del riesgo
-- Amenaza | Cualquier evento, persona o situación que podría causar daño a un activo.
-- Vulnerabilidad | Debilidad en un sistema, proceso o persona que una amenaza puede aprovechar. | riesgos:Escaneo de vulnerabilidades
-- Riesgo | Posibilidad de que una amenaza aproveche una vulnerabilidad y cause un daño. | riesgos:Gestión de riesgos
-> Riesgo = Probabilidad × Impacto
-- Impacto | Daño o consecuencia que sufre la organización cuando un riesgo se materializa.
-- Exploit | Código o técnica que aprovecha una vulnerabilidad específica para atacar un sistema.
-- Incidente de seguridad | Evento que compromete la confidencialidad, integridad o disponibilidad de la información. | continuidad:IMP
-### Actores y vectores
-- Actor de amenaza | Quien origina el ataque: hacker, empleado, hacktivista, crimen organizado o un Estado.
-- Amenaza interna (insider) | Riesgo causado por personas con acceso legítimo, ya sea por descuido o con mala intención. | dlp:Exfiltración
-- Vector de ataque | Camino o medio que usa el atacante para entrar: correo, USB, red o sitio web.
-- Superficie de ataque | Conjunto de todos los puntos por donde un sistema podría ser atacado.
-- APT | Amenaza persistente avanzada: atacante con muchos recursos que permanece oculto largo tiempo en la red.
-### Ataques comunes
-- Malware | Software malicioso hecho para dañar, espiar o tomar el control de un equipo. | marcos:NIST SP 800-83
-- Ransomware | Malware que cifra los archivos de la víctima y pide un rescate para liberarlos. | continuidad:Respaldo
-- Ingeniería social | Manipular a las personas para que revelen información o hagan algo inseguro. | politicas:Concientización
-- Phishing | Correo o mensaje falso que se hace pasar por alguien confiable para robar datos o contraseñas.
-- Día cero (zero-day) | Vulnerabilidad que el fabricante aún no conoce ni ha corregido, pero ya puede explotarse. | soluciones:Gestión de parches
-- DoS / DDoS | Ataque que satura un servicio con tráfico para que deje de estar disponible. | cia:Disponibilidad
-
-## controles | Controles de seguridad y de acceso | Las medidas que reducen el riesgo
-### Principios
-- Control (contramedida) | Medida que reduce un riesgo evitando, detectando o corrigiendo un problema. | riesgos:Mitigar
-- Defensa en profundidad | Usar varias capas de protección para que, si una falla, otra siga protegiendo.
-- Privilegio mínimo | Dar a cada usuario solo los permisos indispensables para hacer su trabajo.
-- Confianza cero (zero trust) | No confiar en nadie por defecto: verificar cada acceso, venga de dentro o fuera de la red. | soluciones:IAM
-### Por su naturaleza
-- Administrativo (gerencial) | Se basa en políticas, procesos y gestión, como reglas, capacitación y análisis de riesgos. | politicas:Política de seguridad
-- Técnico (lógico) | Se implementa con tecnología, como firewall, cifrado, antivirus o contraseñas. | soluciones:Firewall
-- Operativo | Lo realizan personas en el día a día: guardias, respaldos y revisión de bitácoras.
-- Físico | Protege instalaciones y equipos con cerraduras, cámaras, credenciales y rejas.
-### Por su función
-- Preventivo | Busca impedir que el incidente ocurra, como un firewall o una cerradura.
-- Detectivo | Descubre un incidente mientras ocurre o después, como un IDS o una cámara. | soluciones:IDS
-- Correctivo | Reduce el daño y restablece el sistema después del incidente, como restaurar un respaldo.
-- Disuasivo | Desanima al atacante antes de intentarlo, como letreros o vigilancia visible.
-- Compensatorio | Alternativa que se usa cuando el control principal no se puede aplicar.
-### Modelos de control de acceso
-- DAC | Control discrecional: el dueño del recurso decide quién puede usarlo, como los permisos de archivos.
-- MAC | Control obligatorio: el sistema da acceso según etiquetas de clasificación como confidencial o secreto.
-- RBAC | Control basado en roles: los permisos se asignan al puesto y no a la persona.
-- ABAC | Control basado en atributos: decide según datos del usuario, del recurso, la hora o la ubicación.
-- Basado en reglas | El acceso depende de reglas generales del sistema, como horarios o listas del firewall.
-
-## politicas | Políticas de seguridad | Las reglas de la organización y de su personal
-### Jerarquía documental
-- Política de seguridad | Documento de alto nivel, aprobado por la dirección, que define qué se protege y por qué.
-- Estándar | Regla obligatoria y específica para cumplir una política, por ejemplo la longitud mínima de contraseña.
-- Procedimiento | Pasos detallados y en orden para realizar una tarea de seguridad.
-- Guía (lineamiento) | Recomendación no obligatoria que orienta sobre la mejor forma de actuar.
-- Línea base (baseline) | Configuración mínima de seguridad que todos los sistemas deben cumplir.
-### Políticas comunes
-- Uso aceptable (AUP) | Reglas sobre lo que el usuario puede y no puede hacer con los recursos de la empresa.
-- Política de contraseñas | Define la complejidad, vigencia y manejo correcto de las contraseñas. | soluciones:MFA
-- Escritorio limpio | No dejar documentos ni sesiones abiertas a la vista al retirarse del lugar de trabajo.
-- Acuerdo de confidencialidad (NDA) | Contrato en el que una persona se compromete a no revelar información de la empresa. | cia:Confidencialidad
+## politicas | Políticas de seguridad | Reglas documentadas que dirigen la conducta de usuarios y personal de TI
+### Concepto y jerarquía
+- Política de seguridad | Documento que establece cómo la organización atenderá un aspecto de seguridad y qué espera del personal.
+- Estándar | Nivel de operación deseado y medible, por ejemplo 99.5 % de disponibilidad de la red.
+- Guía (lineamiento) | Sugerencia general, a veces opcional, sobre cómo alcanzar un estándar.
+- Procedimiento | Instrucciones específicas, paso a paso, para resolver una situación concreta.
+- Política regulatoria | Indica al personal cómo cumplir una ley, como HIPAA al manejar expedientes médicos electrónicos. | marcos:HIPAA
+- Política consultiva | Recomienda buenas prácticas sin exigir su cumplimiento obligatorio.
+### Políticas para usuarios
+- Uso aceptable (AUP) | Define qué puede y qué no puede hacer el empleado con equipos, red e internet; suele firmarse.
+- Política de contraseñas | Fija longitud, complejidad y vigencia, y prohíbe compartir credenciales.
+- Uso del correo electrónico | Regula el uso personal y las precauciones ante adjuntos de remitentes desconocidos.
+- Instalación de software | Solo personal autorizado puede instalar o desinstalar programas en los equipos.
+- Política de privacidad | Explica cómo se resguardan los datos personales de usuarios internos y externos. | dlp:PII
+### Administración de sistemas
+- Altas de empleados | Procedimiento para crear cuentas con los accesos justos que necesita el nuevo trabajador. | triada:Mínimo privilegio
+- Bajas de empleados | Al salir alguien, su cuenta se deshabilita de inmediato y se recuperan sus credenciales.
+- Gestión de cambios | Toda modificación a sistemas se propone, evalúa y aprueba por las áreas afectadas antes de aplicarse.
+- Respuesta a incidentes | Pasos ante virus, intrusiones o negación de servicio: aislar, notificar, registrar y aprender.
 ### Controles de personal
-- Separación de funciones | Dividir una tarea crítica entre varias personas para que nadie pueda cometer fraude solo.
-- Rotación de puestos | Cambiar periódicamente al personal de puesto para detectar abusos y evitar depender de alguien.
-- Vacaciones obligatorias | Obligar al empleado a ausentarse para que otro revise su trabajo y detecte irregularidades.
-- Concientización | Capacitar a los usuarios para reconocer amenazas como el phishing y actuar de forma segura. | basicos:Phishing
-### Gobierno y cumplimiento
-- GRC | Gobierno, riesgo y cumplimiento: alinear la seguridad con los objetivos, riesgos y leyes del negocio. | riesgos:Gestión de riesgos
-- Cumplimiento (compliance) | Demostrar que la organización respeta leyes, normas y políticas internas. | marcos:GDPR
-- Debida diligencia | Investigar y conocer los riesgos antes de tomar una decisión.
-- Debido cuidado | Actuar con responsabilidad para proteger los activos una vez que se conocen los riesgos.
+- Separación de funciones | Una tarea crítica requiere a más de una persona, lo que reparte el control y frena fraudes.
+- Rotación de puestos | Intercambiar roles cada cierto tiempo para ampliar habilidades y descubrir irregularidades.
+- Vacaciones obligatorias | Días consecutivos de ausencia que permiten a otra persona revisar el trabajo del titular.
+- Capacitación y concientización | Formación periódica para que el personal reconozca amenazas como phishing o ingeniería social.
+### Responsabilidad legal
+- Debida diligencia | Conocer y evaluar los riesgos y vulnerabilidades de la infraestructura de TI. | riesgos:Riesgo
+- Debido cuidado | Acciones de mitigación que se toman frente a los riesgos ya identificados. | riesgos:Mitigación
+- Debido proceso | Principio de respetar y proteger los derechos del personal ante sanciones o demandas.
 
-## marcos | Marcos, estándares y normativas | Referencias externas para organizar la seguridad
-### Normas ISO
-- ISO/IEC 27001 | Norma internacional certificable para crear y mantener un sistema de gestión de seguridad de la información.
-- ISO/IEC 27002 | Guía de buenas prácticas que describe los controles de seguridad que apoyan a la ISO 27001.
-- SGSI | Sistema de gestión de seguridad de la información: ciclo continuo para manejar los riesgos de la información.
-### NIST y CIS
-- NIST CSF | Marco de ciberseguridad organizado en cinco funciones para gestionar riesgos.
-> Identificar → Proteger → Detectar → Responder → Recuperar
-- NIST SP 800-53 | Catálogo amplio de controles de seguridad y privacidad para sistemas de información. | controles:Control (contramedida)
-- NIST SP 800-83 | Guía para prevenir y atender incidentes de malware en equipos de escritorio y laptops. | basicos:Malware
-- CIS Controls | Lista de 18 controles prácticos y priorizados para defenderse de los ataques más comunes.
-### Leyes y regulaciones
-- GDPR (RGPD) | Reglamento europeo que protege los datos personales y da derechos a sus dueños. | dlp:PII
-- PCI DSS | Estándar obligatorio para quien procesa, guarda o transmite datos de tarjetas de pago.
-- HIPAA | Ley de Estados Unidos que protege la información médica de los pacientes.
-- CCPA | Ley de privacidad de California que da al consumidor control sobre sus datos personales.
-### Gobierno de datos
-- DAMA-DMBOK | Guía de buenas prácticas para la gestión y el gobierno de los datos. | dlp:Clasificación de datos
-
-## soluciones | Soluciones tecnológicas de ciberseguridad | Herramientas que ponen en práctica los controles
-### Red y perímetro
-- Firewall | Filtra el tráfico entre redes y bloquea lo que no cumple las reglas definidas.
-- IDS | Sistema de detección de intrusos: vigila el tráfico y avisa ante actividad sospechosa.
-- IPS | Sistema de prevención de intrusos: detecta el ataque y además lo bloquea automáticamente.
-- VPN | Túnel cifrado para conectarse de forma segura a una red a través de Internet.
-- Segmentación de red | Dividir la red en zonas separadas, como VLAN o DMZ, para contener los ataques.
-- NAC | Control de acceso a la red: solo deja conectarse a equipos que cumplen las políticas.
-### Monitoreo y endpoint
-- SIEM | Reúne y correlaciona bitácoras de muchos sistemas para detectar incidentes en tiempo real.
-- SOC | Centro de operaciones de seguridad: equipo que vigila y responde a incidentes de forma continua.
-- Antivirus / antimalware | Software que detecta, bloquea y elimina programas maliciosos en el equipo. | basicos:Malware
-- EDR | Herramienta que registra la actividad de cada equipo y responde automáticamente ante amenazas.
-- Gestión de parches | Instalar actualizaciones a tiempo para cerrar vulnerabilidades conocidas. | basicos:Vulnerabilidad
-### Identidad y criptografía
-- IAM | Gestión de identidades y accesos: administra cuentas, roles y permisos de los usuarios. | controles:RBAC
-- MFA | Autenticación multifactor: pide dos o más pruebas, como contraseña y un código en el celular. | cia:Autenticación
-- Cifrado | Convierte datos legibles en ilegibles con una clave, para que solo el autorizado pueda leerlos. | cia:Confidencialidad
-- Función hash | Genera una huella única de los datos; si cambian aunque sea un poco, cambia el hash. | cia:Integridad
-- Firma digital | Usa criptografía para probar quién envió un mensaje y que no fue alterado. | cia:No repudio
-- Certificado digital (PKI) | Documento electrónico, emitido por una autoridad confiable, que une una llave pública con su dueño.
-
-## riesgos | Análisis y gestión de riesgos | Medir, priorizar y decidir qué hacer con cada riesgo
-### Proceso
-- Gestión de riesgos | Proceso continuo para identificar, evaluar, tratar y vigilar los riesgos de la organización.
-- Evaluación de riesgos | Identificar amenazas y vulnerabilidades de cada activo y estimar su probabilidad e impacto. | basicos:Amenaza
-- Análisis cualitativo | Clasifica los riesgos con escalas descriptivas (bajo, medio, alto) según probabilidad e impacto.
-- Análisis cuantitativo | Asigna valores en dinero a los riesgos para calcular las pérdidas esperadas.
-- Matriz de riesgos | Tabla de probabilidad contra impacto que ayuda a priorizar los riesgos con colores.
-- Registro de riesgos | Documento que enlista cada riesgo con su dueño, nivel y plan de tratamiento.
-- Dueño del riesgo | Persona responsable de vigilar un riesgo y decidir cómo tratarlo.
-### Fórmulas del análisis cuantitativo
-- AV (valor del activo) | Cuánto dinero vale el activo, según su costo de reposición e importancia. | basicos:Activo
-- EF (factor de exposición) | Porcentaje del valor del activo que se perdería si ocurre el evento.
-- SLE (pérdida esperada única) | Dinero que se pierde en un solo incidente.
+## riesgos | Análisis y evaluación del riesgo | Identificar, medir y priorizar riesgos de forma cualitativa y cuantitativa
+### Elementos
+- Activo | Lo que vale la pena proteger porque su pérdida perjudica al negocio, sea tangible o intangible. | riesgos:AV
+- Amenaza | Fuerza externa capaz de vulnerar los controles de seguridad de la organización.
+- Vulnerabilidad | Debilidad interna de los controles que una amenaza podría aprovechar. | riesgos:Escaneo de vulnerabilidades
+- Riesgo | Surge cuando una amenaza coincide con una vulnerabilidad; si falta una de las dos, no existe.
+> Riesgo = Amenaza × Vulnerabilidad
+- Impacto | Magnitud del daño que sufre la organización si el riesgo llega a concretarse. | bia:BIA
+### Evaluación cualitativa
+- Evaluación cualitativa | Expertos juzgan probabilidad e impacto con escalas como alto, moderado y bajo.
+- Matriz de riesgos | Cuadro de probabilidad contra impacto que muestra a simple vista qué riesgos atender primero.
+- Registro de riesgos | Bitácora donde cada área anota sus riesgos y tratamientos; se revisa cada año.
+### Evaluación cuantitativa
+- Evaluación cuantitativa | Usa datos numéricos y monetarios para estimar la pérdida esperada de cada riesgo.
+- AV (valor del activo) | Costo en dinero de reemplazar o reconstruir el activo evaluado.
+- EF (factor de exposición) | Fracción, expresada en porcentaje, del valor del activo que destruiría un evento.
+- SLE (expectativa de pérdida única) | Cuánto dinero cuesta que el evento ocurra una vez.
 > SLE = AV × EF
-- ARO (tasa anual de ocurrencia) | Cuántas veces al año se espera el evento; una vez cada 4 años equivale a 0.25.
-- ALE (pérdida anual esperada) | Pérdida esperada por año; sirve para decidir cuánto vale la pena invertir en controles.
+- ARO (tasa anual de ocurrencia) | Frecuencia esperada al año; una inundación por siglo se expresa como 0.01.
+- ALE (expectativa de pérdida anual) | Costo anual del riesgo; un control no debería costar más que lo que ahorra.
 > ALE = SLE × ARO
-- Ejemplo: robo de servidor | AV = $20,000, EF = 70 %, ARO = 0.25 (1 robo cada 4 años).
-> SLE = $14,000  ·  ALE = $3,500 al año
-### Tipos de riesgo
-- Riesgo inherente | Nivel de riesgo que existe antes de aplicar cualquier control.
-- Riesgo residual | Riesgo que sigue existiendo aun después de aplicar los controles.
-- Apetito de riesgo | Cantidad de riesgo que la organización está dispuesta a aceptar para lograr sus metas.
+- Ejemplo: sismo en el centro de datos | AV de $20 millones, EF de 50 % y ARO de 0.03.
+> SLE = $10 millones  ·  ALE = $300,000 al año
 ### Tratamiento del riesgo
-- Evitar | Eliminar o dejar de hacer la actividad que genera el riesgo.
-- Mitigar (reducir) | Aplicar controles para bajar la probabilidad o el impacto del riesgo. | controles:Control (contramedida)
-- Transferir | Pasar el impacto económico a un tercero, como una aseguradora o un proveedor.
-- Aceptar | Asumir el riesgo conscientemente porque controlarlo cuesta más que el daño posible.
+- Evitar | Cambiar la actividad del negocio para eliminar el riesgo, como reubicar un centro de datos.
+- Transferir | Trasladar el impacto económico a otra entidad mediante un seguro o una cláusula de indemnización.
+- Mitigación | Estrategia favorita en seguridad: poner firewalls, IPS u otros controles ligados directamente al riesgo.
+- Disuasión | Medidas que desaniman al atacante, como acciones legales firmes o vigilancia visible.
+- Aceptar | Solo vigilar el riesgo sin actuar, decisión válida únicamente tras un análisis que la justifique.
 ### Gestión de vulnerabilidades
-- Escaneo de vulnerabilidades | Revisión automática de sistemas para encontrar debilidades conocidas. | basicos:Vulnerabilidad
-- Prueba de penetración (pentest) | Ataque simulado y autorizado para comprobar si las vulnerabilidades realmente pueden explotarse. | basicos:Exploit
-- CVE | Identificador público y único que se asigna a cada vulnerabilidad conocida.
+- Escaneo de vulnerabilidades | Revisión no intrusiva que detecta debilidades conocidas sin explotarlas.
+- Prueba de penetración | Ataque autorizado y más intrusivo que intenta explotar las vulnerabilidades encontradas.
 
-## dlp | Prevención de pérdida de datos (DLP) | Evitar que la información sensible salga de donde debe estar
+## marcos | Estándares y marcos de seguridad | Referencias reconocidas para organizar, medir y mejorar la seguridad
+### NIST Cybersecurity Framework
+- NIST CSF | Marco voluntario de EE. UU. para gestionar el riesgo cibernético; su versión 1.0 es de 2014.
+- Núcleo del marco | Actividades y resultados organizados en funciones, categorías, subcategorías y referencias informativas.
+- Funciones del núcleo | Cinco actividades que se realizan en paralelo y de forma continua, no como pasos en serie.
+> Identificar · Proteger · Detectar · Responder · Recuperar
+- Niveles de implementación | Grado de madurez en la gestión del riesgo: parcial, informado, repetible y adaptativo.
+- Perfil actual y objetivo | Comparar dónde está la organización y dónde quiere llegar revela las brechas por cubrir.
+### CIS Controls
+- CIS Controls v8.1 | Conjunto priorizado de 18 controles con acciones concretas contra los ataques más comunes.
+- Salvaguarda | Acción específica y medible dentro de cada control CIS; antes se llamaba subcontrol.
+- Grupos de implementación (IG) | IG1, IG2 e IG3 priorizan salvaguardas según los recursos y el riesgo de cada empresa.
+- IG1: higiene cibernética esencial | Salvaguardas mínimas que toda organización debería aplicar contra los ataques frecuentes.
+### Normas ISO/IEC
+- ISO/IEC 27001 | Estándar internacional cuyos requisitos permiten que una empresa audite y certifique su SGSI.
+- ISO/IEC 27002 | Código de buenas prácticas con controles de seguridad; también orienta la clasificación de datos. | dlp:Clasificación de datos
+- SGSI | Sistema de gestión que asigna recursos y controles según el tipo y valor de cada clase de información.
+- ISO/IEC 38505-1 | Aplica los principios de gobierno de TI de ISO 38500 al gobierno de los datos.
+- Modelo EDM | El órgano de gobierno evalúa, dirige y monitorea cómo se manejan y usan los datos.
+- Seis principios de gobierno | Responsabilidad, estrategia, adquisición, desempeño, conformidad y comportamiento humano.
+### Leyes y regulaciones
+- HIPAA | Norma de EE. UU. que obliga a hospitales y aseguradoras a resguardar los expedientes de salud.
+- SOX | Ley Sarbanes-Oxley: exige controles y transparencia sobre la información financiera de empresas que cotizan en bolsa.
+- GLBA | Ley Gramm-Leach-Bliley: obliga a las financieras a proteger datos de clientes y combate el pretexting.
+- Privacy Act (1974) | Ley que fija estándares para manejar la información personal en poder del gobierno federal. | dlp:PII
+
+## dlp | Prevención de pérdida de datos (DLP) | Saber dónde está la información sensible y evitar que salga sin control
 ### Concepto
-- DLP | Estrategia, procesos y herramientas que evitan que los datos sensibles se pierdan, roben o usen mal. | cia:Confidencialidad
-- Filtración (data breach) | Incidente en el que alguien no autorizado logra acceder a información sensible.
-- Fuga de datos (data leak) | Exposición accidental de datos sensibles por un error técnico o humano.
-- Exfiltración | Robo de datos: el atacante copia o saca la información hacia un lugar que él controla. | basicos:Amenaza interna (insider)
-- Proceso DLP | Cuatro pasos que se repiten de forma continua.
-> Identificar y clasificar → Monitorear → Proteger → Documentar
+- DLP | Herramientas y procesos que identifican datos sensibles y bloquean su salida o uso indebido.
+- Pérdida vs. fuga de datos | En la pérdida el dato deja de estar disponible; en la fuga termina en manos de terceros.
+- Amenaza interna | Empleado o contratista con acceso legítimo que, por error o con intención, expone información. | politicas:Separación de funciones
+### Gestión de datos (CIS Control 3)
+- Proceso de gestión de datos | Define dueños, manejo, retención y eliminación de los datos según su sensibilidad. | marcos:CIS Controls v8.1
+- Inventario de datos | Registro actualizado de qué datos sensibles existen, dónde se guardan y quién los custodia.
+- Clasificación de datos | Etiquetar la información según su sensibilidad: pública, interna, confidencial o restringida.
+- PII | Cualquier dato que identifique, directa o indirectamente, a una persona física.
+- Flujo de datos | Documentar por dónde viaja la información, incluidos los proveedores de servicio.
+- Retención de datos | Conservar la información solo durante los plazos mínimo y máximo que se definieron.
+- Eliminación segura | Destruir o purgar datos y medios para que no puedan recuperarse.
 ### Estados de los datos
-- Datos en reposo | Datos almacenados en discos, bases de datos o la nube.
-- Datos en tránsito | Datos que viajan por la red; son los más expuestos a ser interceptados. | soluciones:VPN
-- Datos en uso | Datos que se están abriendo, editando o procesando en ese momento.
-### Tipos de datos
-- Clasificación de datos | Ordenar la información según su sensibilidad para saber cuánto protegerla.
-- PII | Información de identificación personal: datos que identifican a alguien, como nombre, CURP o correo. | marcos:GDPR
-- Propiedad intelectual | Creaciones valiosas de la empresa, como diseños, código, fórmulas o patentes.
-- Estructurados / no estructurados | Los primeros tienen formato fijo en bases de datos; los segundos son documentos, imágenes o correos.
-- Shadow data / shadow IT | Datos y herramientas que se usan fuera del control del área de TI.
+- Datos en reposo | Archivos y registros guardados que no se están moviendo; el cifrado de disco los protege. | triada:Cifrado
+- Datos en tránsito | Información que viaja por la red; requiere canales cifrados como TLS.
+- Datos en uso | Información abierta o procesándose en memoria en un momento dado.
 ### Tipos de DLP
-- DLP de red | Vigila los datos que entran, salen y se mueven dentro de la red.
-- DLP de endpoint | Supervisa laptops, celulares y servidores, y bloquea acciones como copiar a una USB.
-- DLP en la nube | Clasifica, monitorea y cifra los datos guardados en servicios en la nube.
-### Técnicas de detección
-- Huella digital de datos | Reconoce archivos sensibles por sus etiquetas, metadatos o valor hash. | soluciones:Función hash
-- Coincidencia de patrones | Detecta formatos conocidos, como números de tarjeta o CURP, dentro del contenido.
+- DLP de red | Inspecciona el tráfico que sale de la organización: correo, web y transferencias de archivos.
+- DLP de endpoint | Agente instalado en el equipo que vigila copias a USB, impresiones o capturas de pantalla.
+- DLP en la nube | Aplica las reglas de DLP a correo, almacenamiento y aplicaciones contratadas como servicio (SaaS).
+### Técnicas y respuesta
+- Coincidencia de patrones | Busca estructuras conocidas, como 16 dígitos de una tarjeta o una CURP, en el contenido revisado.
+- Huella digital de documentos | Reconoce copias de archivos sensibles comparando su hash o fragmentos de contenido. | triada:Hash
+- Seudonimización y anonimización | Sustituir identificadores por alias, o alterarlos de forma irreversible, para proteger a la persona.
+- Bitácora de acceso | Registrar quién consulta datos sensibles para detectar y rastrear abusos. | triada:No repudio
 
-## continuidad | Continuidad del negocio y recuperación (BCP / DRP) | Seguir operando y recuperarse tras un desastre
-### Planes
-- BCP | Plan de continuidad del negocio: mantiene las operaciones esenciales de toda la empresa durante una crisis. | cia:Disponibilidad
-- DRP | Plan de recuperación ante desastres: restaura los sistemas de TI y los datos; forma parte del BCP.
-- BCDR | Gestión conjunta de la continuidad del negocio y la recuperación ante desastres.
-- BIA | Análisis de impacto al negocio: identifica procesos críticos y el daño de detenerlos; es el punto de partida. | riesgos:Evaluación de riesgos
-- IMP | Plan de gestión de incidentes: atiende un incidente de seguridad antes de que se convierta en crisis. | basicos:Incidente de seguridad
-- BRP | Plan de reanudación del negocio: cómo retomar las operaciones comerciales y la cadena de suministro.
-- COOP | Plan de continuidad de operaciones: sostiene las funciones esenciales durante interrupciones largas.
-- OEP | Plan de emergencia para ocupantes: protege a empleados y visitantes, por ejemplo con evacuaciones.
-- Plan de comunicación | Define cómo informar a empleados, clientes, proveedores y medios durante una crisis.
-### Métricas
-- RTO | Tiempo objetivo de recuperación: tiempo máximo que un proceso puede estar detenido.
-- RPO | Punto objetivo de recuperación: cantidad máxima de datos, medida en tiempo, que se puede perder.
-- MTBF | Tiempo medio entre fallas: cuánto funciona un equipo, en promedio, antes de fallar.
-- MTTR | Tiempo medio de reparación: cuánto tarda, en promedio, un equipo en volver a funcionar.
-### Estrategias de recuperación
-- Respaldo (backup) | Copia periódica de los datos guardada en otro lugar para poder restaurarlos. | basicos:Ransomware
-- Sitio caliente | Instalación alterna equipada y lista para operar casi de inmediato; es la más costosa.
-- Sitio tibio | Instalación con parte del equipo; necesita algo de tiempo para empezar a operar.
-- Sitio frío | Espacio con energía y conexión básicas, pero sin equipos; es el más lento y barato.
-- Alta disponibilidad | Duplicar componentes para que el servicio siga funcionando aunque uno falle.
-- Recuperación virtualizada | Usar máquinas virtuales que arrancan en minutos para recuperar aplicaciones críticas.
-### Gestión del plan
-- Inventario de activos | Lista de activos clasificados como críticos, importantes o sin importancia para la operación. | basicos:Activo
-- Roles del plan | Informante de incidentes, supervisor del DRP y gestor de activos coordinan la respuesta.
-- Pruebas y simulacros | Ensayos periódicos que confirman que el plan funciona y que el personal sabe qué hacer.
-- Resiliencia | Capacidad de la empresa para adaptarse y seguir operando ante cualquier adversidad.
+## bia | Análisis de impacto al negocio (BIA) | Qué procesos son críticos y cuánto tiempo puede resistir la organización sin ellos
+### Concepto
+- BIA | Análisis que identifica los procesos críticos y estima el daño que causa interrumpirlos con el paso del tiempo.
+- Proceso crítico | Actividad sin la cual la organización no puede cumplir su misión ni generar ingresos.
+- Dependencias | Personas, sistemas, proveedores e instalaciones que un proceso necesita para operar.
+- Punto único de falla | Componente cuya caída detiene todo el proceso porque no tiene respaldo. | triada:Redundancia
+### Métricas de tiempo
+- MTD (tiempo máximo tolerable) | Lapso máximo de interrupción antes de que el daño resulte inaceptable.
+- RTO | Tiempo objetivo para restablecer un proceso; siempre debe ser menor que el MTD.
+- RPO | Cantidad máxima de datos, medida en tiempo, que se puede perder; marca la frecuencia de respaldos.
+- MTTR | Tiempo promedio que tarda en repararse un componente que falló.
+- MTBF | Tiempo promedio que opera un equipo entre una falla y la siguiente.
+### Tipos de impacto
+- Impacto financiero | Ingresos perdidos, multas y costos adicionales provocados por la interrupción.
+- Impacto operativo | Retrasos, trabajo acumulado y pérdida de productividad mientras el proceso está detenido.
+- Impacto reputacional | Desconfianza de clientes y socios ante fallas visibles del servicio.
+- Impacto legal o regulatorio | Sanciones por incumplir contratos o leyes durante la interrupción. | marcos:SOX
+### Etapas del BIA
+- Recolección de información | Entrevistas y cuestionarios a los responsables de cada área sobre sus procesos.
+- Priorización de procesos | Ordenar los procesos según su impacto para decidir qué recuperar primero. | riesgos:Matriz de riesgos
+- Informe BIA | Documento con hallazgos, tiempos y prioridades que la dirección revisa y aprueba.
+### Relación con otros planes
+- BCP | Estrategia para que la empresa siga dando servicio durante una crisis; se diseña con los resultados del BIA.
+- DRP | Parte técnica de la continuidad: cómo levantar servidores, redes y datos después de un desastre.
+- Pruebas del plan | Simulacros periódicos que validan los tiempos de recuperación y mantienen el BIA actualizado.
