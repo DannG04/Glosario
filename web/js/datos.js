@@ -11,7 +11,7 @@ window.GLOSARIO = {
   "licenciatura": "Licenciatura en Informática",
   "grupo": "906",
   "fecha": "23 de octubre de 2026",
-  "url": ""
+  "url": "https://glosario-beryl.vercel.app"
  },
  "temas": [
   {
