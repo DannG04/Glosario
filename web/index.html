@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glosario de Seguridad</title>
+  <meta name="description" content="Mapa conceptual interactivo con la terminología del primer parcial de Seguridad de Centros de Informática.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7L16 2z' fill='%230b1220' stroke='%2338bdf8' stroke-width='2'/%3E%3Ccircle cx='16' cy='15' r='4' fill='%2338bdf8'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body data-vista="mapa">
+  <header class="barra">
+    <div class="marca">
+      <svg class="marca-icono" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 4 7v8c0 7.5 5.1 13.4 12 15 6.9-1.6 12-7.5 12-15V7L16 2z"/><circle cx="16" cy="15" r="4"/></svg>
+      <div>
+        <h1>Glosario de terminología y temas</h1>
+        <p id="subtitulo-marca">Seguridad de Centros de Informática</p>
+      </div>
+    </div>
+
+    <div class="buscador" role="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="buscar" type="search" placeholder="Buscar un término…" autocomplete="off" aria-label="Buscar término" aria-controls="sugerencias">
+      <kbd>/</kbd>
+      <ul id="sugerencias" class="sugerencias" role="listbox" hidden></ul>
+    </div>
+
+    <nav class="acciones">
+      <div class="conmutador" role="tablist" aria-label="Vista">
+        <button role="tab" data-vista="mapa" aria-selected="true">Mapa 3D</button>
+        <button role="tab" data-vista="lista" aria-selected="false">Glosario</button>
+      </div>
+      <a class="boton" href="imprimir.html" target="_blank" rel="noopener" title="Versión para imprimir">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><path d="M6 14h12v7H6z"/></svg>
+        <span>Imprimible</span>
+      </a>
+      <a class="boton primario" href="glosario.pdf" download="Glosario de terminologia y temas - Seguridad de Centros de Informatica.pdf">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>
+        <span>PDF</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Vista 1: mapa 3D -->
+  <main id="vista-mapa" class="vista-mapa">
+    <div id="escena" class="escena" aria-label="Mapa conceptual en 3D"></div>
+
+    <section class="intro" id="intro">
+      <p class="etiqueta">Primer parcial · <span id="ciclo"></span></p>
+      <h2>Mapa de conceptos</h2>
+      <div class="cifras">
+        <div><strong id="n-temas">0</strong><span>temas</span></div>
+        <div><strong id="n-terminos">0</strong><span>términos</span></div>
+        <div><strong id="n-enlaces">0</strong><span>relaciones</span></div>
+      </div>
+      <div class="creditos" id="creditos-mapa"></div>
+    </section>
+
+    <aside class="leyenda" id="leyenda" aria-label="Temas">
+      <button class="leyenda-titulo" id="leyenda-toggle" aria-expanded="true">
+        <span>Temas</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <ul id="lista-temas"></ul>
+      <div class="leyenda-pie">
+        <button class="enlace" id="ver-todo">Ver todo</button>
+        <label class="interruptor"><input type="checkbox" id="todas-etiquetas"> Todas las etiquetas</label>
+        <label class="interruptor"><input type="checkbox" id="rotar" checked> Rotación</label>
+      </div>
+    </aside>
+
+    <aside class="panel" id="panel" aria-live="polite" hidden>
+      <button class="cerrar" id="cerrar-panel" aria-label="Cerrar">×</button>
+      <div id="panel-contenido"></div>
+    </aside>
+
+    <div class="ayuda" id="ayuda">
+      <span><b>Arrastra</b> para girar</span>
+      <span><b>Rueda / pellizco</b> para acercar</span>
+      <span><b>Clic</b> en un nodo para ver su definición</span>
+    </div>
+
+    <div class="tooltip" id="tooltip" hidden></div>
+    <div class="sin-webgl" id="sin-webgl" hidden>
+      <p>Tu navegador no tiene WebGL disponible, así que el mapa 3D no se puede mostrar.</p>
+      <button class="boton primario" data-ir="lista">Ver el glosario</button>
+    </div>
+  </main>
+
+  <!-- Vista 2: glosario en tarjetas -->
+  <main id="vista-lista" class="vista-lista" hidden>
+    <div class="creditos grande" id="creditos-lista"></div>
+    <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tema"></div>
+    <div id="secciones"></div>
+    <p class="vacio" id="vacio" hidden>No hay términos que coincidan con la búsqueda.</p>
+  </main>
+
+  <script src="js/datos.js"></script>
+  <script src="js/comun.js"></script>
+  <script src="vendor/three/three.min.js"></script>
+  <script src="vendor/three/OrbitControls.js"></script>
+  <script src="vendor/three/CSS2DRenderer.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
