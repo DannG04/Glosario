@@ -11,9 +11,19 @@ const movimientoReducido = matchMedia("(prefers-reduced-motion: reduce)").matche
 /* Textos generales                                                    */
 /* ------------------------------------------------------------------ */
 $("#ciclo").textContent = datos.meta.ciclo;
-$("#n-temas").textContent = temas.length;
-$("#n-terminos").textContent = terminos.length;
-$("#n-enlaces").textContent = datos.enlaces.length;
+// Las cifras suben desde cero al cargar.
+function contar(el, fin) {
+  if (movimientoReducido) { el.textContent = fin; return; }
+  const t0 = performance.now() + 400, dur = 1400;
+  (function paso(ahora) {
+    const k = Math.max(0, Math.min(1, (ahora - t0) / dur));
+    el.textContent = Math.round(fin * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) requestAnimationFrame(paso);
+  })(performance.now());
+}
+contar($("#n-temas"), temas.length);
+contar($("#n-terminos"), terminos.length);
+contar($("#n-enlaces"), datos.enlaces.length);
 {
   const m = datos.meta;
   const html = `<img src="img/logo-unsis.png" alt="Escudo de la ${escapar(m.universidad)}">
@@ -31,7 +41,7 @@ try {
   renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 } catch {
   $("#sin-webgl").hidden = false;
-  $("#intro").hidden = $("#leyenda").hidden = $("#ayuda").hidden = true;
+  $("#intro").hidden = $("#leyenda").hidden = $("#ayuda").hidden = $("#herramientas").hidden = true;
 }
 
 const escena = new THREE.Scene();
@@ -144,7 +154,7 @@ function crearNodo(tipo, ref, pos, radio, color, htmlEtiqueta, claseEtiqueta) {
   grupo.add(etiqueta);
 
   escena.add(grupo);
-  const nodo = { tipo, ref, pos: pos.clone(), grupo, mesh, mat, brillo, etiqueta, div, radio, color: col };
+  const nodo = { tipo, ref, pos: pos.clone(), grupo, mesh, mat, brillo, etiqueta, div, radio, color: col, orden: nodos.length };
   golpe.userData.nodo = nodo;
   golpeables.push(golpe);
   nodos.push(nodo);
@@ -164,10 +174,12 @@ const CENTRO = { id: "centro" };
 const nodoCentro = renderer && crearNodo("centro", CENTRO, new THREE.Vector3(), 5, "#38bdf8",
   escapar(datos.meta.materia), "etq-centro");
 
-const lineasJerarquia = { pos: [], col: [] };
+// Cada línea se dibuja justo después de crear su nodo hijo; "hijo" guarda ese nodo para la animación de entrada.
+const lineasJerarquia = { pos: [], col: [], hijo: [] };
 function lineaJerarquia(a, b, ca, cb) {
   lineasJerarquia.pos.push(a.x, a.y, a.z, b.x, b.y, b.z);
   lineasJerarquia.col.push(ca.r, ca.g, ca.b, cb.r, cb.g, cb.b);
+  lineasJerarquia.hijo.push(nodos.length - 1);
 }
 
 const R_TEMA = 100;
@@ -206,17 +218,18 @@ if (renderer) temas.forEach((tema, i) => {
   });
 });
 
-let matJerarquia;
+let matJerarquia, geoJerarquia;
 if (renderer) {
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute("position", new THREE.Float32BufferAttribute(lineasJerarquia.pos, 3));
-  geo.setAttribute("color", new THREE.Float32BufferAttribute(lineasJerarquia.col, 3));
+  geoJerarquia = new THREE.BufferGeometry();
+  geoJerarquia.setAttribute("position", new THREE.Float32BufferAttribute(lineasJerarquia.pos, 3));
+  geoJerarquia.setAttribute("color", new THREE.Float32BufferAttribute(lineasJerarquia.col, 3));
   matJerarquia = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.28, depthWrite: false });
-  escena.add(new THREE.LineSegments(geo, matJerarquia));
+  escena.add(new THREE.LineSegments(geoJerarquia, matJerarquia));
 }
 
 // Relaciones entre términos: arcos que pasan cerca del centro
 const arcos = [];
+const PUNTOS_ARCO = 48;
 if (renderer) datos.enlaces.forEach((e) => {
   const A = nodoDe.get(porId[e.de]), B = nodoDe.get(porId[e.a]);
   const medio = A.pos.clone().add(B.pos).multiplyScalar(0.5);
@@ -224,7 +237,7 @@ if (renderer) datos.enlaces.forEach((e) => {
   const ctrl = medio.multiplyScalar(mismoTema ? 1.25 : 0.3);
   ctrl.y += mismoTema ? 10 : 18;
   const curva = new THREE.QuadraticBezierCurve3(A.pos, ctrl, B.pos);
-  const pts = curva.getPoints(48);
+  const pts = curva.getPoints(PUNTOS_ARCO);
   const geo = new THREE.BufferGeometry().setFromPoints(pts);
   const cols = [];
   pts.forEach((_, i) => {
@@ -241,16 +254,22 @@ if (renderer) datos.enlaces.forEach((e) => {
   }));
   pulso.scale.setScalar(2.2);
   escena.add(pulso);
-  arcos.push({ A, B, curva, mat, pulso, fase: Math.random(), vel: 0.08 + Math.random() * 0.06 });
+  arcos.push({ A, B, curva, geo, mat, pulso, fase: Math.random(), vel: 0.08 + Math.random() * 0.06 });
 });
 
 /* ------------------------------------------------------------------ */
 /* Estado: selección, foco y resaltado                                 */
 /* ------------------------------------------------------------------ */
-const estado = { seleccion: null, foco: null, hover: null, todas: false };
+const estado = { seleccion: null, hover: null, todas: false };
+const quiz = { activo: false, preguntas: [], i: 0, aciertos: 0, fallos: 0, resuelta: false, pista: false };
 
-function activos() {
-  const s = estado.seleccion;
+// La selección manda; sin selección, el nodo bajo el puntero ilumina su vecindario.
+function focoActual() {
+  if (estado.seleccion) return estado.seleccion;
+  return estado.hover && estado.hover.tipo !== "centro" ? estado.hover : null;
+}
+
+function activos(s = focoActual()) {
   if (!s) return null;
   const set = new Set([s]);
   if (s.tipo === "termino") {
@@ -269,22 +288,31 @@ function activos() {
   return set;
 }
 
+// Las opacidades no cambian de golpe: se guarda la meta y el bucle de animación se acerca a ella.
+const fundibles = new Set();
+function fundir(mat, opacidad) {
+  mat.userData.meta = opacidad;
+  fundibles.add(mat);
+}
+
 function aplicarResaltado() {
-  const set = activos();
+  const foco = focoActual(), set = activos(foco), sel = activos(estado.seleccion);
+  const tenue = estado.seleccion ? 0.12 : 0.22;
   nodos.forEach((n) => {
     const on = !set || set.has(n) || n.tipo === "centro";
-    const opa = on ? 1 : 0.12;
-    n.mat.opacity = opa;
-    n.brillo.material.opacity = on ? 0.85 : 0.05;
-    if (n.mesh.userData.alambre) n.mesh.userData.alambre.material.opacity = on ? 0.6 : 0.08;
-    if (n.mesh.userData.anillo) n.mesh.userData.anillo.material.opacity = on ? 0.8 : 0.1;
-    n.atenuado = !on;
+    fundir(n.mat, on ? 1 : tenue);
+    fundir(n.brillo.material, on ? 0.85 : 0.05);
+    if (n.mesh.userData.alambre) fundir(n.mesh.userData.alambre.material, on ? 0.6 : 0.08);
+    if (n.mesh.userData.anillo) fundir(n.mesh.userData.anillo.material, on ? 0.8 : 0.1);
+    n.apagado = !on;
+    // Solo la selección bloquea los clics; el resaltado por hover es pasajero.
+    n.atenuado = !!sel && !sel.has(n) && n.tipo !== "centro";
   });
-  matJerarquia.opacity = set ? 0.1 : 0.28;
+  fundir(matJerarquia, set ? 0.1 : 0.28);
   arcos.forEach((a) => {
     const on = !set || (set.has(a.A) && set.has(a.B) &&
-      (estado.seleccion.tipo !== "termino" || a.A === estado.seleccion || a.B === estado.seleccion));
-    a.mat.opacity = !set ? 0.5 : on ? 1 : 0.04;
+      (foco.tipo !== "termino" || a.A === foco || a.B === foco));
+    fundir(a.mat, !set ? 0.5 : on ? 1 : 0.04);
     a.pulso.visible = on;
   });
 }
@@ -295,14 +323,15 @@ function visibilidadEtiquetas() {
   nodos.forEach((n) => {
     let ver;
     if (n.tipo === "centro") ver = !set;
-    else if (n.tipo === "tema") ver = !n.atenuado || n === estado.hover;
+    else if (n.tipo === "tema") ver = !n.apagado || n === estado.hover;
     else if (n.tipo === "grupo") {
       ver = (set && set.has(n)) || estado.todas || camPos.distanceTo(n.pos) < 90;
-      if (n.atenuado) ver = false;
+      if (n.apagado) ver = false;
     } else {
       ver = n === estado.hover || (set && set.has(n)) || estado.todas || camPos.distanceTo(n.pos) < 55;
-      if (n.atenuado && n !== estado.hover) ver = false;
+      if (n.apagado && n !== estado.hover) ver = false;
     }
+    if (llegada && llegada.ms < n.aparece) ver = false;
     n.div.classList.toggle("oculta", !ver);
     n.div.classList.toggle("destacado", n === estado.seleccion || n === estado.hover);
   });
@@ -310,6 +339,7 @@ function visibilidadEtiquetas() {
 
 /* Vuelo de cámara */
 let vuelo = null;
+let llegada = null; // animación de entrada: { ms, camara }
 function volarA(objetivo, distancia) {
   const desde = camara.position.clone();
   const dir = objetivo.clone().sub(controles.target);
@@ -350,7 +380,8 @@ function botonTermino(t, extra = "") {
 
 function pintarPanel() {
   const n = estado.seleccion;
-  if (!n || n.tipo === "centro") { panel.hidden = true; return; }
+  // En el quiz el panel delataría la respuesta, así que espera a que se resuelva la pregunta.
+  if (!n || n.tipo === "centro" || (quiz.activo && !quiz.resuelta)) { panel.hidden = true; return; }
   panel.hidden = false;
   panel.scrollTop = 0;
   let html = "";
@@ -454,10 +485,14 @@ if (renderer) {
     const r = lienzo.getBoundingClientRect();
     puntero.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
     const n = nodoBajoPuntero();
-    if (n) seleccionar(n.tipo === "centro" ? null : n);
+    if (n && n.tipo === "termino" && quiz.activo && !quiz.resuelta) responderQuiz(n);
+    else if (n) seleccionar(n.tipo === "centro" ? null : n);
     else if (estado.seleccion) seleccionar(null, { volar: false });
   });
-  controles.addEventListener("start", () => ($("#ayuda").style.opacity = 0));
+  controles.addEventListener("start", () => {
+    $("#ayuda").style.opacity = 0;
+    if (llegada) llegada.camara = false;
+  });
 }
 
 function actualizarHover() {
@@ -465,11 +500,13 @@ function actualizarHover() {
   if (n !== estado.hover) {
     estado.hover = n;
     contenedor.style.cursor = n ? "pointer" : "";
+    if (!estado.seleccion) aplicarResaltado();
   }
   if (n && n.tipo !== "centro") {
     const tema = n.tipo === "tema" ? n.ref : n.tipo === "grupo" ? n.tema : n.ref.tema;
     const titulo = n.tipo === "tema" ? n.ref.titulo : n.tipo === "grupo" ? n.ref.titulo : n.ref.nombre;
-    const cuerpo = n.tipo === "termino" ? n.ref.desc : n.tipo === "tema" ? n.ref.subtitulo : `${n.ref.terminos.length} términos`;
+    const cuerpo = n.tipo === "termino" ? (quiz.activo && !quiz.resuelta ? "¿Será este?" : n.ref.desc)
+      : n.tipo === "tema" ? n.ref.subtitulo : `${n.ref.terminos.length} términos`;
     tooltip.innerHTML = `<span class="chip" style="--c:${tema.color.web}">${escapar(tema.titulo)}</span><b>${escapar(titulo)}</b>${escapar(cuerpo)}`;
     tooltip.hidden = false;
     const w = tooltip.offsetWidth, h = tooltip.offsetHeight;
@@ -495,6 +532,42 @@ addEventListener("resize", redimensionar);
 const reloj = new THREE.Clock();
 const suavizar = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+/* Entrada: el mapa se arma nodo por nodo mientras la cámara sale de la niebla */
+const ENTRADA = { nodos: 1900, arcos: 700, camara: 2800 };
+function prepararEntrada() {
+  const paso = ENTRADA.nodos / nodos.length;
+  nodos.forEach((n) => {
+    n.aparece = 150 + n.orden * paso;
+    n.grupo.scale.setScalar(0.001);
+  });
+  geoJerarquia.setDrawRange(0, 0);
+  arcos.forEach((a) => a.geo.setDrawRange(0, 0));
+  llegada = { ms: 0, camara: true };
+}
+
+function avanzarEntrada(dt) {
+  const ms = (llegada.ms += dt * 1000);
+  if (vuelo) llegada.camara = false;
+  if (llegada.camara) {
+    const k = Math.min(1, ms / ENTRADA.camara);
+    camara.position.setLength(VISTA_INICIAL.length() * (1 + 1.2 * Math.pow(1 - k, 3)));
+  }
+  const hijos = lineasJerarquia.hijo;
+  let n = 0;
+  while (n < hijos.length && nodos[hijos[n]].aparece <= ms) n++;
+  geoJerarquia.setDrawRange(0, n * 2);
+  const ka = Math.min(1, Math.max(0, (ms - ENTRADA.nodos) / ENTRADA.arcos));
+  arcos.forEach((a) => {
+    a.geo.setDrawRange(0, Math.ceil(ka * (PUNTOS_ARCO + 1)));
+    a.pulso.visible = false;
+  });
+  if (ms >= Math.max(ENTRADA.nodos + ENTRADA.arcos, ENTRADA.camara)) {
+    geoJerarquia.setDrawRange(0, Infinity);
+    llegada = null;
+    aplicarResaltado();
+  }
+}
+
 function animar() {
   requestAnimationFrame(animar);
   if (document.body.dataset.vista !== "mapa") return;
@@ -507,7 +580,11 @@ function animar() {
     controles.target.lerpVectors(vuelo.tDesde, vuelo.tHasta, k);
     if (vuelo.t >= 1) vuelo = null;
   }
+  if (llegada) avanzarEntrada(dt);
   controles.update();
+
+  const kf = movimientoReducido ? 1 : 1 - Math.exp(-dt * 12);
+  fundibles.forEach((m) => (m.opacity += (m.userData.meta - m.opacity) * kf));
 
   if (!movimientoReducido) {
     nodos.forEach((n, i) => {
@@ -518,7 +595,8 @@ function animar() {
       } else if (n.tipo === "grupo") {
         n.mesh.userData.anillo.lookAt(camara.position);
       }
-      const escala = n === estado.seleccion ? 1.6 : n === estado.hover ? 1.35 : 1;
+      const escala = llegada && llegada.ms < n.aparece ? 0.001
+        : n === estado.seleccion ? 1.6 : n === estado.hover ? 1.35 : 1;
       const pulso = 1 + Math.sin(t * 2 + i) * 0.05;
       n.grupo.scale.lerp(new THREE.Vector3(escala, escala, escala).multiplyScalar(pulso), 0.15);
     });
@@ -579,6 +657,37 @@ function filtrarLista() {
     visibles += n;
   });
   $("#vacio").hidden = visibles > 0;
+  progresoLectura();
+}
+
+// Barra de progreso de lectura bajo la barra superior.
+function progresoLectura() {
+  const s = document.scrollingElement;
+  const max = s.scrollHeight - s.clientHeight;
+  $("#progreso").style.setProperty("--p", max > 0 ? s.scrollTop / max : 0);
+}
+addEventListener("scroll", progresoLectura, { passive: true });
+
+// Reflejo del color del tema que sigue al puntero sobre cada tarjeta.
+$("#secciones").addEventListener("pointermove", (e) => {
+  const c = e.target.closest(".tarjeta");
+  if (!c) return;
+  const r = c.getBoundingClientRect();
+  c.style.setProperty("--x", e.clientX - r.left + "px");
+  c.style.setProperty("--y", e.clientY - r.top + "px");
+});
+
+// Las tarjetas aparecen escalonadas conforme entran en pantalla.
+if ("IntersectionObserver" in window && !movimientoReducido) {
+  document.body.classList.add("revelar");
+  const obs = new IntersectionObserver((entradas) => {
+    entradas.filter((e) => e.isIntersecting).forEach((e, i) => {
+      e.target.style.setProperty("--d", Math.min(i * 40, 320) + "ms");
+      e.target.classList.add("revelada");
+      obs.unobserve(e.target);
+    });
+  }, { rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".tarjeta").forEach((c) => obs.observe(c));
 }
 
 $("#filtros").addEventListener("click", (e) => {
@@ -629,6 +738,7 @@ function cambiarVista(v) {
   tooltip.hidden = true;
   if (v === "lista") filtrarLista();
   else { redimensionar(); reloj.getDelta(); }
+  progresoLectura();
   actualizarHash();
 }
 document.querySelectorAll(".conmutador button, [data-ir]").forEach((b) =>
@@ -703,6 +813,140 @@ addEventListener("keydown", (e) => {
 });
 
 /* ------------------------------------------------------------------ */
+/* Término al azar                                                     */
+/* ------------------------------------------------------------------ */
+$("#azar").addEventListener("click", () => {
+  const actual = estado.seleccion && estado.seleccion.ref;
+  let t;
+  do t = terminos[Math.floor(Math.random() * terminos.length)]; while (t === actual);
+  irAlMapa(t);
+});
+
+/* ------------------------------------------------------------------ */
+/* Quiz: se muestra una definición y hay que encontrar el nodo          */
+/* ------------------------------------------------------------------ */
+const cajaQuiz = $("#quiz");
+const RONDA = 10, INTENTOS = 3;
+
+function mezclar(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Tapa el nombre del término dentro de su definición, incluidas variantes como
+// "Redundancia" o "RAID" para "Redundancia (RAID, clúster)".
+function definicionSinNombre(t) {
+  const variantes = new Set([t.nombre, ...t.nombre.split(/\s*\/\s*/)]);
+  const m = t.nombre.match(/^(.*?)\s*\((.*)\)$/);
+  if (m) {
+    variantes.add(m[1]);
+    m[2].split(/,\s*/).forEach((v) => variantes.add(v));
+  }
+  const alternativas = [...variantes].filter((v) => v.length > 1)
+    .sort((a, b) => b.length - a.length)
+    .map((v) => v.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  const re = new RegExp(`(?<![\\p{L}\\d])(?:${alternativas.join("|")})(?![\\p{L}\\d])`, "giu");
+  return t.desc.split(re).map(escapar).join('<span class="hueco">?</span>');
+}
+
+function pintarQuiz(aviso = "") {
+  const salir = `<button class="cerrar" data-quiz="salir" aria-label="Salir del quiz">×</button>`;
+  const t = quiz.preguntas[quiz.i];
+  if (!t) {
+    const r = quiz.aciertos / quiz.preguntas.length;
+    const frase = r >= 0.8 ? "¡Excelente! Ya dominas el tema." : r >= 0.5 ? "Bien, aunque vale la pena repasar un poco." : "Toca repasar el glosario y volver a intentarlo.";
+    cajaQuiz.innerHTML = `${salir}<p class="etiqueta">Quiz terminado</p>
+      <p class="quiz-final"><strong>${quiz.aciertos}</strong> de ${quiz.preguntas.length} aciertos</p>
+      <p class="quiz-aviso">${frase}</p>
+      <div class="quiz-botones"><button class="boton" data-quiz="salir">Salir</button>
+        <button class="boton primario" data-quiz="otra">Otra ronda</button></div>`;
+    return;
+  }
+  const chip = quiz.pista || quiz.resuelta
+    ? `<span class="chip" style="--c:${t.tema.color.web}">${t.tema.color.icono} ${escapar(t.tema.titulo)}</span>` : "";
+  cajaQuiz.innerHTML = `${salir}
+    <div class="quiz-cab"><span class="etiqueta">Quiz · ${quiz.i + 1} de ${quiz.preguntas.length}</span>
+      <span class="quiz-marcador">✓ ${quiz.aciertos}</span></div>
+    <p class="quiz-def">${definicionSinNombre(t)}</p>
+    ${chip}
+    <p class="quiz-aviso">${aviso || "¿Qué término es? Haz clic en su nodo del mapa."}</p>
+    <div class="quiz-botones">${quiz.resuelta
+      ? `<button class="boton primario" data-quiz="siguiente">${quiz.i + 1 < quiz.preguntas.length ? "Siguiente →" : "Ver resultado"}</button>`
+      : `<button class="boton" data-quiz="pista"${quiz.pista ? " disabled" : ""}>Pista</button>
+         <button class="boton" data-quiz="rendirse">Ver respuesta</button>`}</div>`;
+}
+
+function iniciarQuiz() {
+  cambiarVista("mapa");
+  quiz.activo = true;
+  quiz.preguntas = mezclar(terminos.filter((t) => !t.ejemplo)).slice(0, RONDA);
+  quiz.i = quiz.aciertos = 0;
+  document.body.classList.add("en-quiz");
+  cajaQuiz.hidden = false;
+  nuevaPregunta();
+}
+
+function nuevaPregunta() {
+  quiz.fallos = 0;
+  quiz.resuelta = quiz.pista = false;
+  seleccionar(null);
+  pintarQuiz();
+}
+
+function revelar(aviso) {
+  quiz.resuelta = true;
+  seleccionar(nodoDe.get(quiz.preguntas[quiz.i]));
+  pintarQuiz(aviso);
+}
+
+function responderQuiz(n) {
+  const t = quiz.preguntas[quiz.i];
+  if (n.ref === t) {
+    quiz.aciertos++;
+    return revelar(`<b class="bien">¡Correcto!</b> Es «${escapar(t.nombre)}».`);
+  }
+  quiz.fallos++;
+  if (quiz.fallos >= INTENTOS) return revelar(`<b class="mal">Se acabaron los intentos.</b> Era «${escapar(t.nombre)}».`);
+  const quedan = INTENTOS - quiz.fallos;
+  pintarQuiz(`<b class="mal">No es «${escapar(n.ref.nombre)}».</b> ${quedan === 1 ? "Te queda 1 intento" : `Te quedan ${quedan} intentos`}.`);
+  cajaQuiz.classList.remove("error");
+  void cajaQuiz.offsetWidth;
+  cajaQuiz.classList.add("error");
+}
+
+function salirQuiz() {
+  quiz.activo = false;
+  cajaQuiz.hidden = true;
+  document.body.classList.remove("en-quiz");
+  seleccionar(null);
+}
+
+cajaQuiz.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-quiz]");
+  if (!b) return;
+  const t = quiz.preguntas[quiz.i];
+  switch (b.dataset.quiz) {
+    case "salir": return salirQuiz();
+    case "otra": return iniciarQuiz();
+    case "pista":
+      quiz.pista = true;
+      seleccionar(nodoDe.get(t.tema));
+      return pintarQuiz("Está en este tema; lo demás queda apagado.");
+    case "rendirse": return revelar(`Era «${escapar(t.nombre)}».`);
+    case "siguiente":
+      quiz.i++;
+      if (quiz.i < quiz.preguntas.length) return nuevaPregunta();
+      seleccionar(null);
+      return pintarQuiz();
+  }
+});
+cajaQuiz.addEventListener("animationend", () => cajaQuiz.classList.remove("error"));
+$("#iniciar-quiz").addEventListener("click", iniciarQuiz);
+
+/* ------------------------------------------------------------------ */
 /* Enlaces directos (#termino=..., #tema=..., #glosario)               */
 /* ------------------------------------------------------------------ */
 function actualizarHash() {
@@ -727,6 +971,7 @@ function leerHash() {
 redimensionar();
 if (renderer) {
   aplicarResaltado();
+  if (!movimientoReducido && !location.hash) prepararEntrada();
   animar();
 }
 leerHash();

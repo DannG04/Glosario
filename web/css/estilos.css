@@ -97,6 +97,14 @@ svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; 
 .boton.primario { background: var(--acento); border-color: var(--acento); color: #04121f; }
 .boton.primario:hover { background: #7dd3fc; }
 
+/* Progreso de lectura (solo en la vista de glosario) */
+.progreso {
+  position: fixed; left: 0; right: 0; top: var(--barra-alto); z-index: 31; height: 2px;
+  background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6);
+  transform: scaleX(var(--p, 0)); transform-origin: left; box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+body[data-vista="mapa"] .progreso { display: none; }
+
 /* ---------- Vista mapa ---------- */
 .vista-mapa { position: fixed; inset: 0; }
 .escena { position: absolute; inset: 0; cursor: grab; z-index: 0; isolation: isolate; overflow: hidden; }
@@ -157,7 +165,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; 
 .interruptor input { accent-color: var(--acento); margin: 0; }
 
 .panel {
-  position: absolute; right: 20px; top: calc(var(--barra-alto) + 20px); bottom: 20px; z-index: 6;
+  position: absolute; right: 20px; top: calc(var(--barra-alto) + 20px); bottom: 76px; z-index: 6;
   width: 380px; overflow: hidden auto;
   background: var(--superficie); backdrop-filter: blur(16px);
   border: 1px solid var(--borde); border-radius: var(--radio); box-shadow: var(--sombra);
@@ -228,6 +236,46 @@ svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; 
   text-align: center; color: var(--texto-2); padding: 20px;
 }
 
+/* Botones flotantes: término al azar y quiz */
+.herramientas { position: absolute; right: 20px; bottom: 20px; z-index: 6; display: flex; gap: 8px; }
+.herramientas .boton { background: var(--superficie); backdrop-filter: blur(14px); box-shadow: var(--sombra); }
+.herramientas .boton:hover { background: var(--superficie-solida); border-color: var(--acento); }
+.herramientas .boton span { display: inline; }
+.herramientas .boton:hover svg { color: var(--acento); }
+#azar:hover svg { transform: rotate(90deg); }
+.herramientas svg { transition: transform .35s cubic-bezier(.2, .8, .2, 1), color .2s; }
+.dado circle { fill: currentColor; stroke: none; }
+body.en-quiz .herramientas, body.en-quiz .intro, body.en-quiz .ayuda { display: none; }
+
+/* Quiz */
+.quiz {
+  position: absolute; left: 20px; top: calc(var(--barra-alto) + 20px); z-index: 7;
+  width: min(440px, calc(100% - 40px)); padding: 18px 20px 18px;
+  background: var(--superficie); backdrop-filter: blur(16px);
+  border: 1px solid var(--borde-fuerte); border-radius: var(--radio); box-shadow: var(--sombra);
+  animation: bajar .4s cubic-bezier(.2, .8, .2, 1);
+}
+@keyframes bajar { from { opacity: 0; transform: translateY(-12px); } }
+.quiz.error { animation: sacudir .4s; border-color: #f87171; }
+@keyframes sacudir { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+.quiz-cab { display: flex; align-items: baseline; gap: 12px; margin-right: 30px; }
+.quiz-cab .etiqueta { margin: 0; }
+.quiz-marcador { font: 600 12px var(--mono); color: #34d399; }
+.quiz-def { font-size: 15.5px; line-height: 1.6; margin: 12px 0; }
+.hueco {
+  display: inline-block; min-width: 2.6em; padding: 0 8px; border-radius: 6px; text-align: center;
+  font: 700 13px/1.5 var(--mono); color: var(--acento);
+  background: rgba(56, 189, 248, 0.12); border: 1px dashed rgba(56, 189, 248, 0.5);
+}
+.quiz .chip { margin-bottom: 4px; }
+.quiz-aviso { font-size: 13.5px; color: var(--texto-2); margin: 10px 0 14px; line-height: 1.5; }
+.quiz-aviso .bien { color: #34d399; }
+.quiz-aviso .mal { color: #f87171; }
+.quiz-final { margin: 14px 0 0; font-size: 15px; color: var(--texto-2); }
+.quiz-final strong { font-size: 40px; font-weight: 800; color: var(--texto); letter-spacing: -0.03em; margin-right: 4px; }
+.quiz-botones { display: flex; gap: 8px; flex-wrap: wrap; }
+.quiz-botones .boton:disabled { opacity: .45; cursor: default; }
+
 /* Etiquetas del mapa (CSS2DRenderer) */
 .etq {
   pointer-events: none; white-space: nowrap; font-weight: 600; color: var(--texto);
@@ -273,12 +321,21 @@ svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; 
   transition: border-color .2s, background .2s, transform .2s;
 }
 .tarjeta::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: var(--c); }
-.tarjeta:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); background: rgba(255, 255, 255, 0.05); transform: translateY(-2px); }
+.tarjeta:hover {
+  border-color: color-mix(in srgb, var(--c) 50%, transparent); transform: translateY(-2px);
+  background:
+    radial-gradient(260px circle at var(--x, 50%) var(--y, 50%), color-mix(in srgb, var(--c) 16%, transparent), transparent 70%),
+    rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 30px -18px color-mix(in srgb, var(--c) 60%, transparent);
+}
 .tarjeta h4 { margin: 0 0 6px; font-size: 15px; }
 .tarjeta p { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--texto-2); }
 .tarjeta .formula { margin: 10px 0 0; font-size: 12px; }
 .tarjeta .rels { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
 .tarjeta .rels .chip { font-size: 10.5px; padding: 2px 7px; }
+.revelar .tarjeta:not(.revelada) { opacity: 0; }
+.tarjeta.revelada { animation: aparecer .55s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: var(--d, 0ms); }
+@keyframes aparecer { from { opacity: 0; transform: translateY(14px); } }
 .tarjeta.destello { animation: destello 1.6s ease; }
 @keyframes destello { 0%, 40% { box-shadow: 0 0 0 2px var(--c), 0 0 30px color-mix(in srgb, var(--c) 40%, transparent); } }
 .vacio { text-align: center; color: var(--texto-3); padding: 60px 0; }
@@ -303,6 +360,10 @@ svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; 
   .leyenda { left: 16px; right: 16px; bottom: 16px; width: auto; max-height: 45vh; overflow: auto; }
   .panel { left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: 62vh; border-radius: 18px 18px 0 0; z-index: 8; }
   .ayuda { display: none; }
+  .herramientas { top: calc(var(--barra-alto) + 14px); bottom: auto; right: 16px; }
+  .herramientas .boton span { display: none; }
+  .quiz { left: 16px; top: calc(var(--barra-alto) + 12px); width: auto; right: 16px; padding: 14px 16px; }
+  .quiz-def { font-size: 14.5px; }
   .intro .creditos { display: none; }
   .etq-tema { font-size: 10px; padding: 3px 7px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
   .etq-centro { font-size: 9px; }
